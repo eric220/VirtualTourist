@@ -43,13 +43,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func checkForSettings() {
-        if UserDefaults.standard.bool(forKey: "HasZoomLevel") {
-            print("zoom level found")
+        if UserDefaults.standard.bool(forKey: "HasZoomLevelAndCenter") {
+            print("App previosly opened")
         } else {
-            UserDefaults.standard.set(nil, forKey: "ZoomLevel")
-            UserDefaults.standard.set(false, forKey: "HasZoomLevel")
+            UserDefaults.standard.set(false, forKey: "HasZoomLevelAndCenter")
+            UserDefaults.standard.set(nil, forKey: "MapRegion")
             UserDefaults.standard.synchronize()
-            print("no zoom level found")
+            print("no zoom/center level found")
         }
     }
 

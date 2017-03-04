@@ -12,18 +12,29 @@ import MapKit
 
 class CollectionViewController: UIViewController, MKMapViewDelegate {
     
-    var locationPin: CLPlacemark?
+    var locationPin: CLLocationCoordinate2D?
+    var location: String?
     
     @IBOutlet weak var labelOutlet: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     
-    var location: String?
-    
-    override func viewDidLoad() {
+    //lifecycle
+    override func viewDidLoad(){
         super.viewDidLoad()
         labelOutlet.text = location
         mapView.delegate = self
+        centerAndZoomMap()
         Client.sharedInstance.getPhotos()
+    }
+    
+    //functions
+    func centerAndZoomMap(){
+        let mapCenter = CLLocationCoordinate2D.init(latitude: (locationPin?.latitude)!, longitude: (locationPin?.longitude)!)
+        let longitudeDelta = CLLocationDegrees(10.0)
+        let latitudeDelta = CLLocationDegrees(10.0)
+        let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+        let savedRegion = MKCoordinateRegion(center: mapCenter, span: span)
+        self.mapView.setRegion(savedRegion, animated: false)
     }
     
 }
