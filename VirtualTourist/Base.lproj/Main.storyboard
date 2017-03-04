@@ -36,12 +36,9 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ih5-ow-6OR">
                                         <rect key="frame" x="0.0" y="323.5" width="343" height="323.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eaq-OP-QMp">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YwJ-Nq-Yau">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="323.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                            </imageView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -68,7 +65,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Collection" selectedImage="listIcon" id="eKx-Ta-GPl"/>
                     <connections>
-                        <outlet property="labelOutlet" destination="eaq-OP-QMp" id="ebg-h7-na4"/>
                         <outlet property="mapView" destination="46e-5t-tfL" id="Qz4-41-pQY"/>
                     </connections>
                 </viewController>

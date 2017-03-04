@@ -12,9 +12,7 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     //properties
-    
     @IBOutlet weak var mapView: MKMapView!
-    
     
     //lifecycle
     override func viewDidLoad(){
@@ -29,20 +27,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
 
-    func addAnnotation(gestureRecognizer: UIGestureRecognizer) {
-        if gestureRecognizer.state == UIGestureRecognizerState.began {
-            let point = gestureRecognizer.location(in: mapView)
-            let touchCoordinate = mapView.convert(point, toCoordinateFrom: mapView)
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = touchCoordinate
-            let location = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
-            getLocation(location: location){(result, error) in
-                self.centerOnMap(location: result![0])
-                self.mapView.addAnnotation(MKPlacemark(placemark: result![0]))
-            }
-        }
-    }
-   
+    //views
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         let reuseId = "pin"
@@ -61,16 +46,27 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
-            if let toOpen = view.annotation?.title! {
                 let controller = self.storyboard?.instantiateViewController(withIdentifier: "CollectionViewController") as! CollectionViewController
-                controller.location = toOpen
                 controller.locationPin = view.annotation?.coordinate
-                //controller.locationPin =
                 self.navigationController!.pushViewController(controller, animated: true)
+        }
+    }
+    
+    func addAnnotation(gestureRecognizer: UIGestureRecognizer) {
+        if gestureRecognizer.state == UIGestureRecognizerState.began {
+            let point = gestureRecognizer.location(in: mapView)
+            let touchCoordinate = mapView.convert(point, toCoordinateFrom: mapView)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = touchCoordinate
+            let location = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
+            getLocation(location: location){(result, error) in
+                self.centerOnMap(location: result![0])
+                self.mapView.addAnnotation(MKPlacemark(placemark: result![0]))
             }
         }
     }
     
+    //functions
     func getLocation(location: CLLocation, handler:@escaping (_ result: [CLPlacemark]?, _ error: String?)-> Void){
         let geoCoder = CLGeocoder()
         geoCoder.reverseGeocodeLocation(location){(data, error) in
@@ -92,7 +88,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func setRegion(){
         let mapRegion = UserDefaults.standard.object(forKey: "MapRegion") as! [String:Double]
         let mapCenter = CLLocationCoordinate2D.init(latitude: mapRegion["lat"]!, longitude: mapRegion["lon"]!)
-        //mapView.setCenter(mapCenter, animated: true)
         let longitudeDelta = mapRegion["latDelta"]! as CLLocationDegrees
         let latitudeDelta = mapRegion["lonDelta"]! as CLLocationDegrees
         let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
