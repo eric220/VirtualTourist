@@ -65,6 +65,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Collection" selectedImage="listIcon" id="eKx-Ta-GPl"/>
                     <connections>
+                        <outlet property="image" destination="YwJ-Nq-Yau" id="lGG-Me-F4M"/>
                         <outlet property="mapView" destination="46e-5t-tfL" id="Qz4-41-pQY"/>
                     </connections>
                 </viewController>

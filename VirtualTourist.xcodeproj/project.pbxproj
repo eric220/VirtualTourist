@@ -16,6 +16,7 @@
 		FA0C4D2A1E5A230000E1A56C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4D291E5A230000E1A56C /* MapViewController.swift */; };
 		FA0C4D2C1E5A232100E1A56C /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4D2B1E5A232100E1A56C /* CollectionViewController.swift */; };
 		FA0C4D301E60EDE500E1A56C /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4D2F1E60EDE500E1A56C /* Client.swift */; };
+		FA0C4D321E6B59D500E1A56C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4D311E6B59D500E1A56C /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		FA0C4D291E5A230000E1A56C /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		FA0C4D2B1E5A232100E1A56C /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		FA0C4D2F1E60EDE500E1A56C /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		FA0C4D311E6B59D500E1A56C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				FA0C4D2F1E60EDE500E1A56C /* Client.swift */,
+				FA0C4D311E6B59D500E1A56C /* Constants.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA0C4D321E6B59D500E1A56C /* Constants.swift in Sources */,
 				FA0C4D2C1E5A232100E1A56C /* CollectionViewController.swift in Sources */,
 				FA0C4D2A1E5A230000E1A56C /* MapViewController.swift in Sources */,
 				FA0C4CFC1E5A22C300E1A56C /* AppDelegate.swift in Sources */,

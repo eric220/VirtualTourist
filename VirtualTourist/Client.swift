@@ -12,7 +12,22 @@ import UIKit
 class Client {
     
     func getPhotos(){
-        print("Photos")
+    }
+    
+    func VTUrlParameter(parameters: [String:AnyObject]) -> URL {
+        
+        var components = URLComponents()
+        components.scheme = Constants.Url.scheme
+        components.host = Constants.Url.host
+        components.path = Constants.Url.path
+        components.queryItems = [URLQueryItem]()
+        
+        for (key, value) in parameters {
+            let queryItem = URLQueryItem(name: key, value: "\(value)")
+            components.queryItems!.append(queryItem)
+        }
+        
+        return components.url!
     }
     
     static var sharedInstance = Client()
