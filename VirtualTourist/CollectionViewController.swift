@@ -10,20 +10,35 @@ import Foundation
 import UIKit
 import MapKit
 
-class CollectionViewController: UIViewController, MKMapViewDelegate {
+class CollectionViewController: UIViewController, MKMapViewDelegate{
     //properties
     var locationPin: CLLocationCoordinate2D?
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var image: UIImageView!
+    @IBOutlet weak var addAlbumButton: UIButton!
     
     //lifecycle
     override func viewDidLoad(){
         super.viewDidLoad()
         mapView.delegate = self
         centerAndZoomMap()
-        Client.sharedInstance.getPhotos()
-        getImageFromFlickr()
+        loadImage()
+        addAlbumButton.isEnabled = false
+    }
+    
+    func loadImage(){
+        Client.sharedInstance.getImageFromFlickr(locationPin: locationPin!){(image, error) in
+            guard error == nil else{
+                print(error!)
+                return
+            }
+            if let imageData = image {
+                self.performUIUpdatesOnMain {
+                    self.image.image = UIImage(data: imageData as Data)
+                }
+            }
+        }
     }
     
     //views
@@ -57,52 +72,12 @@ class CollectionViewController: UIViewController, MKMapViewDelegate {
         self.mapView.addAnnotation(annotation)
     }
     
-    //a8b2fe2e7a7804d2bd34d88980ce92d7 
-    //Secret:
-    //8f7495be0fb6edf9
-    
-    private func getImageFromFlickr() {
-        
-        let urlString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=a8b2fe2e7a7804d2bd34d88980ce92d7&lat=\(locationPin!.latitude)&lon=\(locationPin!.longitude)&extras=url_m&nojsoncallback=1&format=json&gallery&per_page=50"
-        print(urlString)
-        let url = NSURL(string: urlString)
-        let request = NSURLRequest(url: url as! URL)
-        print("request:\(request)")
-        let task = URLSession.shared.dataTask(with: request as URLRequest!) {data, response, error in
-            if error == nil {
-                if let data = data{
-                    let parsedResult: AnyObject!
-                    do {
-                        parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
-                        //print(parsedResult)
-                    }catch {
-                        print("could not parse data")
-                        return
-                    }
-                    if let photosDictionary = parsedResult[Constants.FlickrResponseKeys.Photos] as? [String: AnyObject],let photoArray = photosDictionary["photo"] as? [[String: AnyObject]]{
-                        let randomPhotoIndex = Int(arc4random_uniform(UInt32(photoArray.count)))
-                        let photoDictionary = photoArray[randomPhotoIndex] as [String: AnyObject]
-                        if let imageUrlString = photoDictionary[Constants.FlickrResponseKeys.MediumURL] as? String {
-                            let imageURL = NSURL(string: imageUrlString)
-                            if let imageData = NSData(contentsOf: imageURL! as URL){
-                                self.performUIUpdatesOnMain {
-                                    self.image.image = UIImage(data: imageData as Data)
-                                }
-                            }
-                        }
-                        //print(photoArray[randomPhotoIndex])
-                    }
-                }
-            }
-        }
-        task.resume()
-    }
-    
     func performUIUpdatesOnMain(_ updates: @escaping () -> Void) {
         DispatchQueue.main.async {
             updates()
         }
     }
+    
     private func escapeParameters(parameters: [String: AnyObject]) -> String{
         if parameters.isEmpty {
             return ""
@@ -117,5 +92,20 @@ class CollectionViewController: UIViewController, MKMapViewDelegate {
             return "?\(keyValuePair.joined(separator: "&"))"
         }
     }
+    
+    /*override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) 
+        // Set the image
+        return cell
+    }
+    
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath)
+    }*/
 
 }

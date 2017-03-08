@@ -103,6 +103,7 @@
 		FA0C4CFA1E5A22C300E1A56C /* VirtualTourist */ = {
 			isa = PBXGroup;
 			children = (
+				FA0C4D331E6F817700E1A56C /* Views */,
 				FA0C4D2E1E60EDC600E1A56C /* Models */,
 				FA0C4D2D1E5A233000E1A56C /* Controlllers */,
 				FA0C4CFB1E5A22C300E1A56C /* AppDelegate.swift */,
@@ -148,6 +149,13 @@
 				FA0C4D311E6B59D500E1A56C /* Constants.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		FA0C4D331E6F817700E1A56C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
