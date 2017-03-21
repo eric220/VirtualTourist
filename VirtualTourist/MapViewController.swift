@@ -6,7 +6,6 @@
 //  Copyright © 2017 Macbook. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import MapKit
 
@@ -17,6 +16,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //lifecycle
     override func viewDidLoad(){
         super.viewDidLoad()
+        //add press
         mapView.delegate = self
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(addAnnotation))
         longPress.minimumPressDuration = 1.0
@@ -46,7 +46,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
-                let controller = self.storyboard?.instantiateViewController(withIdentifier: "CollectionViewController") as! CollectionViewController
+                let controller = self.storyboard?.instantiateViewController(withIdentifier: "ImagesViewController") as! ImagesViewController
                 controller.locationPin = view.annotation?.coordinate
                 self.navigationController!.pushViewController(controller, animated: true)
         }
@@ -59,6 +59,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let annotation = MKPointAnnotation()
             annotation.coordinate = touchCoordinate
             let location = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
+            print(location)
             getLocation(location: location){(result, error) in
                 self.centerOnMap(location: result![0])
                 self.mapView.addAnnotation(MKPlacemark(placemark: result![0]))
@@ -103,7 +104,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func unsubscribeToBackgroundNotification(){
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
-    
+    //persist region view
     func storeUserData(){
         let mapRegion = [
             "lat" : mapView.region.center.latitude,

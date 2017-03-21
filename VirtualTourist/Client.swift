@@ -59,5 +59,27 @@ class Client: NSObject, MKMapViewDelegate {
         task.resume()
     }
     
+    func performUIUpdatesOnMain(_ updates: @escaping () -> Void) {
+        DispatchQueue.main.async {
+            updates()
+        }
+    }
+    
+    private func escapeParameters(parameters: [String: AnyObject]) -> String{
+        if parameters.isEmpty {
+            return ""
+        } else {
+            var keyValuePair = [String]()
+            
+            for (key, value) in parameters{
+                let stringValue = "\(value)"
+                let escapedValue = stringValue.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+                keyValuePair.append(key + "=" + "\(escapedValue!)")
+            }
+            return "?\(keyValuePair.joined(separator: "&"))"
+        }
+    }
+    
+    
     static var sharedInstance = Client()
 }

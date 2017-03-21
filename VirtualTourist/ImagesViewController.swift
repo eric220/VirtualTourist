@@ -6,13 +6,13 @@
 //  Copyright © 2017 Macbook. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import MapKit
 
-class CollectionViewController: UIViewController, MKMapViewDelegate{
+class ImagesViewController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     //properties
     var locationPin: CLLocationCoordinate2D?
+    var images: Data?
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var image: UIImageView!
@@ -27,6 +27,8 @@ class CollectionViewController: UIViewController, MKMapViewDelegate{
         addAlbumButton.isEnabled = false
     }
     
+    
+    
     func loadImage(){
         Client.sharedInstance.getImageFromFlickr(locationPin: locationPin!){(image, error) in
             guard error == nil else{
@@ -34,11 +36,22 @@ class CollectionViewController: UIViewController, MKMapViewDelegate{
                 return
             }
             if let imageData = image {
-                self.performUIUpdatesOnMain {
+                Client.sharedInstance.performUIUpdatesOnMain {
                     self.image.image = UIImage(data: imageData as Data)
                 }
             }
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 15
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
+                                                      for: indexPath)
+        cell.backgroundColor = UIColor.black
+        return cell
     }
     
     //views
@@ -61,7 +74,6 @@ class CollectionViewController: UIViewController, MKMapViewDelegate{
     //functions
     func centerAndZoomMap(){
         let mapCenter = locationPin
-        print("lat:\(locationPin?.latitude), lon:\(locationPin?.longitude)")
         let longitudeDelta = CLLocationDegrees(10.0)
         let latitudeDelta = CLLocationDegrees(10.0)
         let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
@@ -77,35 +89,4 @@ class CollectionViewController: UIViewController, MKMapViewDelegate{
             updates()
         }
     }
-    
-    private func escapeParameters(parameters: [String: AnyObject]) -> String{
-        if parameters.isEmpty {
-            return ""
-        } else {
-            var keyValuePair = [String]()
-            
-            for (key, value) in parameters{
-                let stringValue = "\(value)"
-                let escapedValue = stringValue.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
-                keyValuePair.append(key + "=" + "\(escapedValue!)")
-            }
-            return "?\(keyValuePair.joined(separator: "&"))"
-        }
-    }
-    
-    /*override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) 
-        // Set the image
-        return cell
-    }
-    
-    
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
-    }*/
-
 }
