@@ -51,8 +51,10 @@ class MapViewController: CoreDataViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
             let controller = self.storyboard?.instantiateViewController(withIdentifier: "ImagesViewController") as! ImagesViewController
-            let lat = mapView.selectedAnnotations
-            print(lat)
+            let location = mapView.selectedAnnotations[0]
+            print("Annotation")
+            print(location)
+            print("Annotation")
             //use predicate to only pass matching lat lon
             controller.fetchedResultsController = fetchedResultsController
             controller.locationPin = view.annotation?.coordinate
