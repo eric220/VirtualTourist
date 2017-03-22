@@ -23,14 +23,12 @@ struct CoreDataStack {
     // MARK: Initializers
     
     init?(modelName: String) {
-        
         // Assumes the model is in the main bundle
         guard let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
             print("Unable to find \(modelName)in the main bundle")
             return nil
         }
         self.modelURL = modelURL
-        
         // Try to create the model from the URL
         guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
             print("unable to create a model from \(modelURL)")
@@ -81,6 +79,7 @@ internal extension CoreDataStack  {
         // just leave empty tables.
         try coordinator.destroyPersistentStore(at: dbURL, ofType:NSSQLiteStoreType , options: nil)
         try addStoreCoordinator(NSSQLiteStoreType, configuration: nil, storeURL: dbURL, options: nil)
+        print("delete")
     }
 }
 
@@ -90,6 +89,7 @@ extension CoreDataStack {
     
     func saveContext() throws {
         if context.hasChanges {
+            print("context has changed")
             try context.save()
         }
     }
@@ -99,7 +99,7 @@ extension CoreDataStack {
         if delayInSeconds > 0 {
             do {
                 try saveContext()
-                print("Autosaving")
+               // print("Autosaving")
             } catch {
                 print("Error while autosaving")
             }

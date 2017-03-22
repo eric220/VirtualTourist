@@ -26,7 +26,7 @@
 		FA0C4EE01E8174EB00E1A56C /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4EDF1E8174EB00E1A56C /* CoreDataStack.swift */; };
 		FA0C4EE21E81929B00E1A56C /* CoreDataCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4EE11E81929B00E1A56C /* CoreDataCollectionViewController.swift */; };
 		FA0C4EE41E81959200E1A56C /* CoreDataFetchedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4EE31E81959200E1A56C /* CoreDataFetchedResultsController.swift */; };
-		FA0C4EE61E81B41A00E1A56C /* CDCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4EE51E81B41A00E1A56C /* CDCollectionView.swift */; };
+		FA0C4EE81E81E7D900E1A56C /* CoreDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4EE71E81E7D900E1A56C /* CoreDataViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,7 +72,7 @@
 		FA0C4EDF1E8174EB00E1A56C /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		FA0C4EE11E81929B00E1A56C /* CoreDataCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataCollectionViewController.swift; sourceTree = "<group>"; };
 		FA0C4EE31E81959200E1A56C /* CoreDataFetchedResultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataFetchedResultsController.swift; sourceTree = "<group>"; };
-		FA0C4EE51E81B41A00E1A56C /* CDCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCollectionView.swift; sourceTree = "<group>"; };
+		FA0C4EE71E81E7D900E1A56C /* CoreDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataViewController.swift; path = ../CoreDataViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,7 +157,7 @@
 		FA0C4D2D1E5A233000E1A56C /* Controlllers */ = {
 			isa = PBXGroup;
 			children = (
-				FA0C4EE51E81B41A00E1A56C /* CDCollectionView.swift */,
+				FA0C4EE71E81E7D900E1A56C /* CoreDataViewController.swift */,
 				FA0C4EE11E81929B00E1A56C /* CoreDataCollectionViewController.swift */,
 				FA0C4D381E6F9BE800E1A56C /* ImagesViewController.swift */,
 				FA0C4D291E5A230000E1A56C /* MapViewController.swift */,
@@ -327,8 +327,8 @@
 				FA0C4D321E6B59D500E1A56C /* Constants.swift in Sources */,
 				FA0C4EE01E8174EB00E1A56C /* CoreDataStack.swift in Sources */,
 				FA0C4D2A1E5A230000E1A56C /* MapViewController.swift in Sources */,
+				FA0C4EE81E81E7D900E1A56C /* CoreDataViewController.swift in Sources */,
 				FA0C4EDD1E8174B000E1A56C /* Locations+CoreDataClass.swift in Sources */,
-				FA0C4EE61E81B41A00E1A56C /* CDCollectionView.swift in Sources */,
 				FA0C4EDB1E8174B000E1A56C /* Image+CoreDataClass.swift in Sources */,
 				FA0C4ED61E816ABD00E1A56C /* Model.xcdatamodeld in Sources */,
 				FA0C4D3D1E705A6800E1A56C /* imageCell.swift in Sources */,

@@ -134,7 +134,13 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" selectedImage="mapIcon" id="3Qc-ob-aQs"/>
-                    <navigationItem key="navigationItem" id="LKX-Gc-YV7"/>
+                    <navigationItem key="navigationItem" id="LKX-Gc-YV7">
+                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="X1F-Gw-CJA">
+                            <connections>
+                                <action selector="dumpData:" destination="ELC-2T-gd0" id="mYL-3H-1nh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="kBL-cJ-6mL" id="Y3b-tC-8Ta"/>
                     </connections>

@@ -9,11 +9,11 @@
 import UIKit
 import MapKit
 
-class ImagesViewController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class ImagesViewController: CoreDataViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     //properties
     var locationPin: CLLocationCoordinate2D?
     var images: Data?
-
+    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var addAlbumButton: UIButton!
@@ -25,6 +25,7 @@ class ImagesViewController: UIViewController, MKMapViewDelegate, UICollectionVie
         centerAndZoomMap()
         loadImage()
         addAlbumButton.isEnabled = false
+        print(fetchedResultsController?.fetchedObjects)
     }
     
     

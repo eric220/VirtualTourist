@@ -9,12 +9,14 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: CoreDataViewController, MKMapViewDelegate {
     //properties
     @IBOutlet weak var mapView: MKMapView!
     
+    
     //lifecycle
     override func viewDidLoad(){
+        
         super.viewDidLoad()
         //add press
         mapView.delegate = self
@@ -23,13 +25,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.addGestureRecognizer(longPress)
         subscribeToBackgroundNotification()
         if UserDefaults.standard.bool(forKey: "HasZoomLevelAndCenter"){
-        setRegion()
+            setRegion()
+        }
+        if fetchedResultsController?.fetchedObjects?.count != 0 {
+        pinsFromCD()
         }
     }
 
     //views
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        
         let reuseId = "pin"
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         if pinView == nil {
@@ -46,9 +50,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
-                let controller = self.storyboard?.instantiateViewController(withIdentifier: "ImagesViewController") as! ImagesViewController
-                controller.locationPin = view.annotation?.coordinate
-                self.navigationController!.pushViewController(controller, animated: true)
+            let controller = self.storyboard?.instantiateViewController(withIdentifier: "ImagesViewController") as! ImagesViewController
+            let lat = mapView.selectedAnnotations
+            print(lat)
+            //use predicate to only pass matching lat lon
+            controller.fetchedResultsController = fetchedResultsController
+            controller.locationPin = view.annotation?.coordinate
+            self.navigationController!.pushViewController(controller, animated: true)
         }
     }
     
@@ -58,6 +66,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let touchCoordinate = mapView.convert(point, toCoordinateFrom: mapView)
             let annotation = MKPointAnnotation()
             annotation.coordinate = touchCoordinate
+            let locations = Locations(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude, context: (fetchedResultsController?.managedObjectContext)!)
+            print(locations)
             let location = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
             print(location)
             getLocation(location: location){(result, error) in
@@ -116,4 +126,38 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         UserDefaults.standard.set(true, forKey: "HasZoomLevelAndCenter")
         unsubscribeToBackgroundNotification()
     }
+    
+    func pinsFromCD(){
+        for object in (fetchedResultsController?.fetchedObjects)! {
+            let nb = object as? Locations
+            let location = CLLocation(latitude: (nb?.latitude)!, longitude: (nb?.longitude)!)
+            //print(object)
+            getLocation(location: location){(result, error) in
+                self.centerOnMap(location: result![0])
+                self.mapView.addAnnotation(MKPlacemark(placemark: result![0]))
+            }
+        }
+    }
+    
+    @IBAction func dumpData(_ sender: Any) {
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        do {
+            try delegate.stack?.dropAllData()
+        } catch {
+            print(error)
+        }
+        
+    }
+    
+    func updateSearchResults(lat: Double) {
+        if (lat <= 90 && lat >= -90) {
+            fetchedResultsController?.fetchRequest.predicate = NSPredicate(format: "lattitude =  %.2f", lat)
+        } else {
+            print("no data found")
+        }
+        do {
+            try self.fetchedResultsController?.performFetch()
+        } catch {}
+    }
+    
 }
