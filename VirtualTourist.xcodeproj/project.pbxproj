@@ -16,17 +16,16 @@
 		FA0C4D2A1E5A230000E1A56C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4D291E5A230000E1A56C /* MapViewController.swift */; };
 		FA0C4D301E60EDE500E1A56C /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4D2F1E60EDE500E1A56C /* Client.swift */; };
 		FA0C4D321E6B59D500E1A56C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4D311E6B59D500E1A56C /* Constants.swift */; };
-		FA0C4D391E6F9BE800E1A56C /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4D381E6F9BE800E1A56C /* ImagesViewController.swift */; };
+		FA0C4D391E6F9BE800E1A56C /*  ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4D381E6F9BE800E1A56C /*  ImagesViewController.swift */; };
 		FA0C4D3D1E705A6800E1A56C /* imageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4D3C1E705A6800E1A56C /* imageCell.swift */; };
 		FA0C4ED61E816ABD00E1A56C /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4ED41E816ABD00E1A56C /* Model.xcdatamodeld */; };
 		FA0C4EDB1E8174B000E1A56C /* Image+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4ED71E8174B000E1A56C /* Image+CoreDataClass.swift */; };
-		FA0C4EDC1E8174B000E1A56C /* Image+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4ED81E8174B000E1A56C /* Image+CoreDataProperties.swift */; };
 		FA0C4EDD1E8174B000E1A56C /* Locations+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4ED91E8174B000E1A56C /* Locations+CoreDataClass.swift */; };
-		FA0C4EDE1E8174B000E1A56C /* Locations+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4EDA1E8174B000E1A56C /* Locations+CoreDataProperties.swift */; };
 		FA0C4EE01E8174EB00E1A56C /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4EDF1E8174EB00E1A56C /* CoreDataStack.swift */; };
-		FA0C4EE21E81929B00E1A56C /* CoreDataCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4EE11E81929B00E1A56C /* CoreDataCollectionViewController.swift */; };
 		FA0C4EE41E81959200E1A56C /* CoreDataFetchedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4EE31E81959200E1A56C /* CoreDataFetchedResultsController.swift */; };
-		FA0C4EE81E81E7D900E1A56C /* CoreDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4EE71E81E7D900E1A56C /* CoreDataViewController.swift */; };
+		FA4342EE1E8C9E620027FF9F /* Image+CoreDataProperties .swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4342ED1E8C9E620027FF9F /* Image+CoreDataProperties .swift */; };
+		FA4342F61E8CA3240027FF9F /* Locations+CoreDataProperties .swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4342F51E8CA3240027FF9F /* Locations+CoreDataProperties .swift */; };
+		FA4343331E9C76B90027FF9F /* MapFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4343321E9C76B90027FF9F /* MapFunctions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,17 +61,18 @@
 		FA0C4D291E5A230000E1A56C /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		FA0C4D2F1E60EDE500E1A56C /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
 		FA0C4D311E6B59D500E1A56C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		FA0C4D381E6F9BE800E1A56C /* ImagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesViewController.swift; sourceTree = "<group>"; };
+		FA0C4D381E6F9BE800E1A56C /*  ImagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = " ImagesViewController.swift"; sourceTree = "<group>"; };
 		FA0C4D3C1E705A6800E1A56C /* imageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = imageCell.swift; sourceTree = "<group>"; };
 		FA0C4ED51E816ABD00E1A56C /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		FA0C4ED71E8174B000E1A56C /* Image+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataClass.swift"; path = "../Image+CoreDataClass.swift"; sourceTree = "<group>"; };
-		FA0C4ED81E8174B000E1A56C /* Image+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataProperties.swift"; path = "../Image+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		FA0C4ED91E8174B000E1A56C /* Locations+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Locations+CoreDataClass.swift"; path = "../Locations+CoreDataClass.swift"; sourceTree = "<group>"; };
-		FA0C4EDA1E8174B000E1A56C /* Locations+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Locations+CoreDataProperties.swift"; path = "../Locations+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		FA0C4EDF1E8174EB00E1A56C /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		FA0C4EE11E81929B00E1A56C /* CoreDataCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataCollectionViewController.swift; sourceTree = "<group>"; };
 		FA0C4EE31E81959200E1A56C /* CoreDataFetchedResultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataFetchedResultsController.swift; sourceTree = "<group>"; };
-		FA0C4EE71E81E7D900E1A56C /* CoreDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataViewController.swift; path = ../CoreDataViewController.swift; sourceTree = "<group>"; };
+		FA3221FF1E82FCAD00C72429 /* Model2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model2.xcdatamodel; sourceTree = "<group>"; };
+		FA4342DE1E854B8F0027FF9F /* Model3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model3.xcdatamodel; sourceTree = "<group>"; };
+		FA4342ED1E8C9E620027FF9F /* Image+CoreDataProperties .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataProperties .swift"; path = "../Image+CoreDataProperties .swift"; sourceTree = "<group>"; };
+		FA4342F51E8CA3240027FF9F /* Locations+CoreDataProperties .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Locations+CoreDataProperties .swift"; sourceTree = "<group>"; };
+		FA4343321E9C76B90027FF9F /* MapFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFunctions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,10 +157,8 @@
 		FA0C4D2D1E5A233000E1A56C /* Controlllers */ = {
 			isa = PBXGroup;
 			children = (
-				FA0C4EE71E81E7D900E1A56C /* CoreDataViewController.swift */,
-				FA0C4EE11E81929B00E1A56C /* CoreDataCollectionViewController.swift */,
-				FA0C4D381E6F9BE800E1A56C /* ImagesViewController.swift */,
 				FA0C4D291E5A230000E1A56C /* MapViewController.swift */,
+				FA0C4D381E6F9BE800E1A56C /*  ImagesViewController.swift */,
 			);
 			name = Controlllers;
 			sourceTree = "<group>";
@@ -169,11 +167,12 @@
 			isa = PBXGroup;
 			children = (
 				FA0C4EDF1E8174EB00E1A56C /* CoreDataStack.swift */,
-				FA0C4ED71E8174B000E1A56C /* Image+CoreDataClass.swift */,
-				FA0C4ED81E8174B000E1A56C /* Image+CoreDataProperties.swift */,
 				FA0C4ED91E8174B000E1A56C /* Locations+CoreDataClass.swift */,
-				FA0C4EDA1E8174B000E1A56C /* Locations+CoreDataProperties.swift */,
+				FA4342F51E8CA3240027FF9F /* Locations+CoreDataProperties .swift */,
+				FA4342ED1E8C9E620027FF9F /* Image+CoreDataProperties .swift */,
+				FA0C4ED71E8174B000E1A56C /* Image+CoreDataClass.swift */,
 				FA0C4D2F1E60EDE500E1A56C /* Client.swift */,
+				FA4343321E9C76B90027FF9F /* MapFunctions.swift */,
 				FA0C4D311E6B59D500E1A56C /* Constants.swift */,
 				FA0C4ED41E816ABD00E1A56C /* Model.xcdatamodeld */,
 			);
@@ -322,21 +321,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA0C4EDC1E8174B000E1A56C /* Image+CoreDataProperties.swift in Sources */,
-				FA0C4D391E6F9BE800E1A56C /* ImagesViewController.swift in Sources */,
+				FA0C4D391E6F9BE800E1A56C /*  ImagesViewController.swift in Sources */,
 				FA0C4D321E6B59D500E1A56C /* Constants.swift in Sources */,
+				FA4342F61E8CA3240027FF9F /* Locations+CoreDataProperties .swift in Sources */,
 				FA0C4EE01E8174EB00E1A56C /* CoreDataStack.swift in Sources */,
+				FA4343331E9C76B90027FF9F /* MapFunctions.swift in Sources */,
 				FA0C4D2A1E5A230000E1A56C /* MapViewController.swift in Sources */,
-				FA0C4EE81E81E7D900E1A56C /* CoreDataViewController.swift in Sources */,
 				FA0C4EDD1E8174B000E1A56C /* Locations+CoreDataClass.swift in Sources */,
 				FA0C4EDB1E8174B000E1A56C /* Image+CoreDataClass.swift in Sources */,
 				FA0C4ED61E816ABD00E1A56C /* Model.xcdatamodeld in Sources */,
 				FA0C4D3D1E705A6800E1A56C /* imageCell.swift in Sources */,
 				FA0C4CFC1E5A22C300E1A56C /* AppDelegate.swift in Sources */,
-				FA0C4EDE1E8174B000E1A56C /* Locations+CoreDataProperties.swift in Sources */,
 				FA0C4D301E60EDE500E1A56C /* Client.swift in Sources */,
-				FA0C4EE21E81929B00E1A56C /* CoreDataCollectionViewController.swift in Sources */,
 				FA0C4EE41E81959200E1A56C /* CoreDataFetchedResultsController.swift in Sources */,
+				FA4342EE1E8C9E620027FF9F /* Image+CoreDataProperties .swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,9 +605,11 @@
 		FA0C4ED41E816ABD00E1A56C /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				FA4342DE1E854B8F0027FF9F /* Model3.xcdatamodel */,
+				FA3221FF1E82FCAD00C72429 /* Model2.xcdatamodel */,
 				FA0C4ED51E816ABD00E1A56C /* Model.xcdatamodel */,
 			);
-			currentVersion = FA0C4ED51E816ABD00E1A56C /* Model.xcdatamodel */;
+			currentVersion = FA3221FF1E82FCAD00C72429 /* Model2.xcdatamodel */;
 			name = Model.xcdatamodeld;
 			path = ../Model.xcdatamodeld;
 			sourceTree = "<group>";

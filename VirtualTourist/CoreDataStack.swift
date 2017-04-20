@@ -18,6 +18,8 @@ struct CoreDataStack {
     internal let coordinator: NSPersistentStoreCoordinator
     private let modelURL: URL
     internal let dbURL: URL
+    //internal let persistingContext: NSManagedObjectContext
+    //internal let backgroundContext: NSManagedObjectContext
     let context: NSManagedObjectContext
     
     // MARK: Initializers
@@ -42,6 +44,16 @@ struct CoreDataStack {
         // create a context and add connect it to the coordinator
         context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         context.persistentStoreCoordinator = coordinator
+        
+        /*persistingContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        persistingContext.persistentStoreCoordinator = coordinator
+        
+        context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        context.parent = persistingContext
+        
+        // Create a background context child of main context
+        backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        backgroundContext.parent = context*/
         
         // Add a SQLite store located in the documents folder
         let fm = FileManager.default

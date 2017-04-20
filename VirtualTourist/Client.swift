@@ -9,9 +9,12 @@
 import Foundation
 import UIKit
 import MapKit
+import CoreData
 
 class Client: NSObject, MKMapViewDelegate {
     
+    
+    //create url
     func VTUrlParameter(parameters: [String:AnyObject]) -> URL {
         
         var components = URLComponents()
@@ -28,9 +31,9 @@ class Client: NSObject, MKMapViewDelegate {
         return components.url!
     }
     
-    func getImageFromFlickr(locationPin: CLLocationCoordinate2D, handler: @escaping (_ image: NSData?, _ error: String? )->Void ) {
-        
-        let urlString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=a8b2fe2e7a7804d2bd34d88980ce92d7&lat=\(locationPin.latitude)&lon=\(locationPin.longitude)&extras=url_m&nojsoncallback=1&format=json&gallery&per_page=50&radius=20&radius_units=mi"
+    //get images
+    func getImageFromFlickr(locationPin: CLLocationCoordinate2D, location: Locations, numPics: Int?, handler: @escaping (_ image: NSData?, _ error: String? )->Void ) {
+        let urlString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=a8b2fe2e7a7804d2bd34d88980ce92d7&lat=\(location.latitude)&lon=\(location.longitude)&extras=url_m&nojsoncallback=1&format=json&gallery&per_page=\(numPics!)&radius=20&radius_units=mi"
         let url = NSURL(string: urlString)
         let request = NSURLRequest(url: url as! URL)
         let task = URLSession.shared.dataTask(with: request as URLRequest!) {data, response, error in
@@ -44,12 +47,15 @@ class Client: NSObject, MKMapViewDelegate {
                         return
                     }
                     if let photosDictionary = parsedResult[Constants.FlickrResponseKeys.Photos] as? [String: AnyObject],let photoArray = photosDictionary["photo"] as? [[String: AnyObject]]{
-                        let randomPhotoIndex = Int(arc4random_uniform(UInt32(photoArray.count)))
-                        let photoDictionary = photoArray[randomPhotoIndex] as [String: AnyObject]
-                        if let imageUrlString = photoDictionary[Constants.FlickrResponseKeys.MediumURL] as? String {
-                            let imageURL = NSURL(string: imageUrlString)
-                            if let imageData = NSData(contentsOf: imageURL! as URL){
-                                handler(imageData, nil)
+                        
+                        for photo in photoArray {
+                            if let imageUrlString = photo[Constants.FlickrResponseKeys.MediumURL] as? String {
+                                let imageURL = NSURL(string: imageUrlString)
+                                if let imageData = NSData(contentsOf: imageURL! as URL){
+                                    let photo = Image(image: imageData, context: self.stackManagedObjectContext())
+                                    photo.location = location
+                                    handler(imageData, nil)
+                                }
                             }
                         }
                     }
@@ -59,11 +65,13 @@ class Client: NSObject, MKMapViewDelegate {
         task.resume()
     }
     
+    //update main
     func performUIUpdatesOnMain(_ updates: @escaping () -> Void) {
         DispatchQueue.main.async {
             updates()
         }
     }
+    
     
     private func escapeParameters(parameters: [String: AnyObject]) -> String{
         if parameters.isEmpty {
@@ -80,6 +88,63 @@ class Client: NSObject, MKMapViewDelegate {
         }
     }
     
+    
+    //create stack
+    func stackManagedObjectContext() -> NSManagedObjectContext {
+        
+        // core data stack
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let stack = delegate.stack
+        
+        return (stack?.context)!
+        
+    }
+    
+    //get lotlon form CD and add annotation
+    func pinsFromCD(_ mapView: MKMapView){
+        let request: NSFetchRequest<Locations> = Locations.fetchRequest()
+        let result = try? Client.sharedInstance.stackManagedObjectContext().fetch(request)
+        if let result = result {
+            for object in result {
+                let locale = object
+                let location = CLLocation(latitude: (locale.latitude), longitude: (locale.longitude))
+                MapFunctions.sharedInstance.getLocation(location: location){(result, error) in
+                    guard error == nil else{
+                        print((error)! as String)
+                        return
+                    }
+                    let annotation = MKPointAnnotation()
+                    annotation.title = result?[0].locality
+                    annotation.subtitle = result?[0].country
+                    annotation.coordinate = CLLocationCoordinate2D(latitude: (result?[0].location?.coordinate.latitude)!, longitude: (result?[0].location?.coordinate.longitude)!)
+                    mapView.addAnnotation(annotation)
+                }
+            }
+        }
+    }
+    
+    //add annotation to map
+    func addAnnotation(mapView: MKMapView, gestureRecognizer: UIGestureRecognizer) {
+            let point = gestureRecognizer.location(in: mapView)
+            let touchCoordinate = mapView.convert(point, toCoordinateFrom: mapView)
+            let touchLocation = MKPointAnnotation()
+            touchLocation.coordinate = touchCoordinate
+            let location = CLLocation(latitude: touchLocation.coordinate.latitude, longitude: touchLocation.coordinate.longitude)
+            MapFunctions.sharedInstance.getLocation(location: location){(result, error) in
+                guard error == nil else{
+                    print((error)! as String)
+                    return
+                }
+                //fails here if over water due to name I think
+                _ = Locations(latitude: (result?[0].location?.coordinate.latitude)!, longitude: (result?[0].location?.coordinate.longitude)!, name: (result?[0].locality)!, context: (self.stackManagedObjectContext()))
+                MapFunctions.sharedInstance.centerOnMap(mapView: mapView, location: (result?[0])!)
+                let annotation = MKPointAnnotation()
+                annotation.title = result?[0].locality
+                annotation.subtitle = result?[0].country
+                annotation.coordinate = CLLocationCoordinate2D(latitude: (result?[0].location?.coordinate.latitude)!, longitude: (result?[0].location?.coordinate.longitude)!)
+                mapView.addAnnotation(annotation)
+            }
+    }
     
     static var sharedInstance = Client()
 }
