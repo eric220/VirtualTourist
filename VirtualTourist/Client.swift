@@ -33,6 +33,7 @@ class Client: NSObject, MKMapViewDelegate {
     
     //get images
     func getImageFromFlickr(locationPin: CLLocationCoordinate2D, location: Locations, numPics: Int?, handler: @escaping (_ image: NSData?, _ error: String? )->Void ) {
+        //work on getting scheme to work Apptransport security???
         /*let parameters = [Constants.FlickrParameterKeys.Method: Constants.FlickrParameterValues.MethodValue,
                           Constants.FlickrParameterKeys.APIKey: Constants.FlickrParameterValues.APIKeyValue,
                           Constants.FlickrParameterKeys.lat: (location.latitude),
@@ -59,6 +60,7 @@ class Client: NSObject, MKMapViewDelegate {
                         return
                     }
                     if let photosDictionary = parsedResult[Constants.FlickrResponseKeys.Photos] as? [String: AnyObject],let photoArray = photosDictionary["photo"] as? [[String: AnyObject]]{
+                        //work on random selection
                         let pageLimit = min(numPics!, 40)
                         let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1
 
