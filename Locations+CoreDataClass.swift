@@ -12,7 +12,7 @@ import CoreData
 @objc(Locations)
 public class Locations: NSManagedObject {
 
-    convenience init(latitude: Double, longitude: Double, name: String, context: NSManagedObjectContext) {
+    convenience init(latitude: Double, longitude: Double, /*name: String,*/ context: NSManagedObjectContext) {
         
         // An EntityDescription is an object that has access to all
         // the information you provided in the Entity part of the model
@@ -21,7 +21,6 @@ public class Locations: NSManagedObject {
             self.init(entity: ent, insertInto: context)
             self.latitude = latitude
             self.longitude = longitude
-            self.name = name
         } else {
             fatalError("Unable to find Entity name!")
         }

@@ -23,9 +23,10 @@
 		FA0C4EDD1E8174B000E1A56C /* Locations+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4ED91E8174B000E1A56C /* Locations+CoreDataClass.swift */; };
 		FA0C4EE01E8174EB00E1A56C /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4EDF1E8174EB00E1A56C /* CoreDataStack.swift */; };
 		FA0C4EE41E81959200E1A56C /* CoreDataFetchedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4EE31E81959200E1A56C /* CoreDataFetchedResultsController.swift */; };
-		FA4342EE1E8C9E620027FF9F /* Image+CoreDataProperties .swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4342ED1E8C9E620027FF9F /* Image+CoreDataProperties .swift */; };
-		FA4342F61E8CA3240027FF9F /* Locations+CoreDataProperties .swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4342F51E8CA3240027FF9F /* Locations+CoreDataProperties .swift */; };
 		FA4343331E9C76B90027FF9F /* MapFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4343321E9C76B90027FF9F /* MapFunctions.swift */; };
+		FAD15ADA1EA8E5FD004389F5 /* Image+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD15AD81EA8E5FD004389F5 /* Image+CoreDataProperties.swift */; };
+		FAD15ADB1EA8E5FD004389F5 /* Locations+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD15AD91EA8E5FD004389F5 /* Locations+CoreDataProperties.swift */; };
+		FAD15ADD1EAD7B02004389F5 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD15ADC1EAD7B02004389F5 /* ImageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,9 +71,11 @@
 		FA0C4EE31E81959200E1A56C /* CoreDataFetchedResultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataFetchedResultsController.swift; sourceTree = "<group>"; };
 		FA3221FF1E82FCAD00C72429 /* Model2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model2.xcdatamodel; sourceTree = "<group>"; };
 		FA4342DE1E854B8F0027FF9F /* Model3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model3.xcdatamodel; sourceTree = "<group>"; };
-		FA4342ED1E8C9E620027FF9F /* Image+CoreDataProperties .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataProperties .swift"; path = "../Image+CoreDataProperties .swift"; sourceTree = "<group>"; };
-		FA4342F51E8CA3240027FF9F /* Locations+CoreDataProperties .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Locations+CoreDataProperties .swift"; sourceTree = "<group>"; };
 		FA4343321E9C76B90027FF9F /* MapFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFunctions.swift; sourceTree = "<group>"; };
+		FAD15AD71EA8E5C1004389F5 /* Model4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model4.xcdatamodel; sourceTree = "<group>"; };
+		FAD15AD81EA8E5FD004389F5 /* Image+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataProperties.swift"; path = "../Image+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		FAD15AD91EA8E5FD004389F5 /* Locations+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Locations+CoreDataProperties.swift"; path = "../Locations+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		FAD15ADC1EAD7B02004389F5 /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +162,7 @@
 			children = (
 				FA0C4D291E5A230000E1A56C /* MapViewController.swift */,
 				FA0C4D381E6F9BE800E1A56C /*  ImagesViewController.swift */,
+				FAD15ADC1EAD7B02004389F5 /* ImageViewController.swift */,
 			);
 			name = Controlllers;
 			sourceTree = "<group>";
@@ -168,8 +172,8 @@
 			children = (
 				FA0C4EDF1E8174EB00E1A56C /* CoreDataStack.swift */,
 				FA0C4ED91E8174B000E1A56C /* Locations+CoreDataClass.swift */,
-				FA4342F51E8CA3240027FF9F /* Locations+CoreDataProperties .swift */,
-				FA4342ED1E8C9E620027FF9F /* Image+CoreDataProperties .swift */,
+				FAD15AD91EA8E5FD004389F5 /* Locations+CoreDataProperties.swift */,
+				FAD15AD81EA8E5FD004389F5 /* Image+CoreDataProperties.swift */,
 				FA0C4ED71E8174B000E1A56C /* Image+CoreDataClass.swift */,
 				FA0C4D2F1E60EDE500E1A56C /* Client.swift */,
 				FA4343321E9C76B90027FF9F /* MapFunctions.swift */,
@@ -323,10 +327,12 @@
 			files = (
 				FA0C4D391E6F9BE800E1A56C /*  ImagesViewController.swift in Sources */,
 				FA0C4D321E6B59D500E1A56C /* Constants.swift in Sources */,
-				FA4342F61E8CA3240027FF9F /* Locations+CoreDataProperties .swift in Sources */,
 				FA0C4EE01E8174EB00E1A56C /* CoreDataStack.swift in Sources */,
+				FAD15ADB1EA8E5FD004389F5 /* Locations+CoreDataProperties.swift in Sources */,
 				FA4343331E9C76B90027FF9F /* MapFunctions.swift in Sources */,
 				FA0C4D2A1E5A230000E1A56C /* MapViewController.swift in Sources */,
+				FAD15ADA1EA8E5FD004389F5 /* Image+CoreDataProperties.swift in Sources */,
+				FAD15ADD1EAD7B02004389F5 /* ImageViewController.swift in Sources */,
 				FA0C4EDD1E8174B000E1A56C /* Locations+CoreDataClass.swift in Sources */,
 				FA0C4EDB1E8174B000E1A56C /* Image+CoreDataClass.swift in Sources */,
 				FA0C4ED61E816ABD00E1A56C /* Model.xcdatamodeld in Sources */,
@@ -334,7 +340,6 @@
 				FA0C4CFC1E5A22C300E1A56C /* AppDelegate.swift in Sources */,
 				FA0C4D301E60EDE500E1A56C /* Client.swift in Sources */,
 				FA0C4EE41E81959200E1A56C /* CoreDataFetchedResultsController.swift in Sources */,
-				FA4342EE1E8C9E620027FF9F /* Image+CoreDataProperties .swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -605,11 +610,12 @@
 		FA0C4ED41E816ABD00E1A56C /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				FAD15AD71EA8E5C1004389F5 /* Model4.xcdatamodel */,
 				FA4342DE1E854B8F0027FF9F /* Model3.xcdatamodel */,
 				FA3221FF1E82FCAD00C72429 /* Model2.xcdatamodel */,
 				FA0C4ED51E816ABD00E1A56C /* Model.xcdatamodel */,
 			);
-			currentVersion = FA3221FF1E82FCAD00C72429 /* Model2.xcdatamodel */;
+			currentVersion = FAD15AD71EA8E5C1004389F5 /* Model4.xcdatamodel */;
 			name = Model.xcdatamodeld;
 			path = ../Model.xcdatamodeld;
 			sourceTree = "<group>";

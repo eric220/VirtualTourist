@@ -102,9 +102,17 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Collection" selectedImage="listIcon" id="eKx-Ta-GPl"/>
+                    <navigationItem key="navigationItem" id="eym-QF-uRr">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="JVW-n4-42U">
+                            <connections>
+                                <action selector="editButton:" destination="eQa-Ya-7XC" id="VCO-lZ-OqV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="addAlbumButton" destination="th9-5M-hTj" id="HWA-nh-gs4"/>
                         <outlet property="collectionView" destination="Ajn-Jk-uUJ" id="l0p-nH-dK3"/>
+                        <outlet property="editButton" destination="JVW-n4-42U" id="l7P-nx-hdd"/>
                         <outlet property="flowLayout" destination="yQp-bz-DN5" id="abv-6c-2IU"/>
                         <outlet property="mapView" destination="46e-5t-tfL" id="Qz4-41-pQY"/>
                     </connections>
@@ -112,6 +120,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="edU-nB-c99" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-113" y="107"/>
+        </scene>
+        <!--ImageViewController-->
+        <scene sceneID="uTT-P7-znv">
+            <objects>
+                <viewController storyboardIdentifier="ImageViewController" title="ImageViewController" id="MGY-bm-k0T" customClass="ImageViewController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="F8j-Cq-jhl"/>
+                        <viewControllerLayoutGuide type="bottom" id="gSk-2a-MSP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hem-rQ-aSe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ogf-tv-yh0">
+                                <rect key="frame" x="16" y="40" width="343" height="607"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Ogf-tv-yh0" secondAttribute="trailing" id="025-fx-6qK"/>
+                            <constraint firstItem="gSk-2a-MSP" firstAttribute="top" secondItem="Ogf-tv-yh0" secondAttribute="bottom" constant="20" id="Kc8-rk-jAb"/>
+                            <constraint firstItem="Ogf-tv-yh0" firstAttribute="leading" secondItem="hem-rQ-aSe" secondAttribute="leadingMargin" id="TkW-zu-gnH"/>
+                            <constraint firstItem="Ogf-tv-yh0" firstAttribute="top" secondItem="F8j-Cq-jhl" secondAttribute="bottom" constant="20" id="u7m-Ct-4Y7"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="Ogf-tv-yh0" id="H8v-3Z-A6Q"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cn1-DY-HBd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="558" y="107"/>
         </scene>
         <!--MapViewController-->
         <scene sceneID="rnA-gm-nji">

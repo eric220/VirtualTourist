@@ -64,7 +64,8 @@ class MapViewController: UIViewController {
         } catch {
             print(error)
         }
-        
+        let allAnnotations = self.mapView.annotations
+        self.mapView.removeAnnotations(allAnnotations)
     }
     
 }

@@ -37,10 +37,12 @@ class ImagesViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var addAlbumButton: UIButton!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var editButton: UIBarButtonItem!
     
     //lifecycle
     override func viewDidLoad(){
         super.viewDidLoad()
+        print("image")
         mapView.delegate = self
         centerAndZoomMap()
         setFlowLayout()
@@ -95,7 +97,15 @@ class ImagesViewController: UIViewController, MKMapViewDelegate {
         getPics()
     }
 
+    @IBAction func editButton(_ sender: Any) {
+        editButton.tintColor = UIColor.red
+        collectionView.backgroundColor = UIColor.red
+        print("delete")
+    }
 }
+
+
+
 extension ImagesViewController {
         func executeSearch() {
             do {
@@ -135,24 +145,32 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
                                                       for: indexPath) as! imageCell
-        print(indexPath)
-        print(fetchedResultsController.fetchedObjects?.count)
-        if ((fetchedResultsController.fetchedObjects?.count)! != 0) {
-            print("not nil")
-            print(indexPath)
+        let count = (fetchedResultsController.fetchedObjects?.count)!
+        let objCount = indexPath[1]
+        if count > objCount {
             let newImage = fetchedResultsController.object(at: indexPath)
             cell.collectionImage.image  = UIImage(data:newImage.image as! Data)
-            print("end")
+            return cell
         }
-    
+        
         return cell
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        Client.sharedInstance.stackManagedObjectContext().delete(fetchedResultsController.object(at: indexPath))
-        getPics()
+        if editButton.tintColor == UIColor.red {
+            Client.sharedInstance.stackManagedObjectContext().delete(fetchedResultsController.object(at: indexPath))
+            getPics()
+            editButton.tintColor = UIColor.blue
+            collectionView.backgroundColor = UIColor.clear
+        }else {
+            let controller = self.storyboard?.instantiateViewController(withIdentifier: "ImageViewController") as! ImageViewController
+            controller.imageData = fetchedResultsController.object(at: indexPath)
+            self.navigationController?.pushViewController( controller, animated: true)
+        }
     }
 }
 
@@ -160,10 +178,10 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
 //controller delegate
 extension ImagesViewController: NSFetchedResultsControllerDelegate {
     
-    // for automatically update collection view if data base changes
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         collectionView.reloadData()
     }
+    
 }
 
 

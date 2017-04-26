@@ -2,7 +2,7 @@
 //  Locations+CoreDataProperties.swift
 //  VirtualTourist
 //
-//  Created by Macbook on 3/29/17.
+//  Created by Macbook on 4/20/17.
 //  Copyright © 2017 Macbook. All rights reserved.
 //
 
@@ -18,7 +18,6 @@ extension Locations {
 
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
-    @NSManaged public var name: String?
     @NSManaged public var images: NSSet?
 
 }
