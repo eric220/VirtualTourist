@@ -33,6 +33,7 @@ class Client: NSObject, MKMapViewDelegate {
     
     //get images
     func getImageFromFlickr(locationPin: CLLocationCoordinate2D, location: Locations, numPics: Int?, handler: @escaping (_ image: NSData?, _ error: String? )->Void ) {
+        var numberOfPics = numPics!
         //work on getting scheme to work Apptransport security???
         /*let parameters = [Constants.FlickrParameterKeys.Method: Constants.FlickrParameterValues.MethodValue,
                           Constants.FlickrParameterKeys.APIKey: Constants.FlickrParameterValues.APIKeyValue,
@@ -46,7 +47,7 @@ class Client: NSObject, MKMapViewDelegate {
                           Constants.FlickrParameterKeys.RadiusUnits: Constants.FlickrParameterValues.RadiusUnitsValue] as [String : Any]
         let mUrl = VTUrlParameter(parameters: parameters)
         print(parameters)*/
-        let urlString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=a8b2fe2e7a7804d2bd34d88980ce92d7&lat=\(location.latitude)&lon=\(location.longitude)&extras=url_m&nojsoncallback=1&format=json&gallery&per_page=\(numPics!)&radius=20&radius_units=mi"
+        let urlString = "\(Constants.Url.Scheme)://\(Constants.Url.Host)/\(Constants.Url.Path)/?method=flickr.photos.search&api_key=a8b2fe2e7a7804d2bd34d88980ce92d7&lat=\(location.latitude)&lon=\(location.longitude)&extras=url_m&nojsoncallback=1&format=json&gallery&per_page=\(Constants.FlickrParameterValues.PerPageValue)&radius=20&radius_units=mi"
         let url = NSURL(string: urlString)
         let request = NSURLRequest(url: url as! URL)
         let task = URLSession.shared.dataTask(with: request as URLRequest!) {data, response, error in
@@ -61,10 +62,9 @@ class Client: NSObject, MKMapViewDelegate {
                     }
                     if let photosDictionary = parsedResult[Constants.FlickrResponseKeys.Photos] as? [String: AnyObject],let photoArray = photosDictionary["photo"] as? [[String: AnyObject]]{
                         //work on random selection
-                        let pageLimit = min(numPics!, 40)
-                        let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1
-
-                        for photo in photoArray {
+                        repeat {
+                            let randomImageNumber = Int(arc4random_uniform(UInt32(Constants.FlickrParameterValues.PerPageValue))) + 1
+                            let photo = photoArray[randomImageNumber]
                             if let imageUrlString = photo[Constants.FlickrResponseKeys.MediumURL] as? String {
                                 let imageURL = NSURL(string: imageUrlString)
                                 if let imageData = NSData(contentsOf: imageURL! as URL){
@@ -73,7 +73,8 @@ class Client: NSObject, MKMapViewDelegate {
                                     handler(imageData, nil)
                                 }
                             }
-                        }
+                            numberOfPics -= 1
+                        } while numberOfPics > 0
                     }
                 }
             }
