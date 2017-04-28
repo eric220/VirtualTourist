@@ -136,16 +136,28 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ogf-tv-yh0">
                                 <rect key="frame" x="16" y="40" width="343" height="607"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xVT-V4-V9q" userLabel="Delete ">
+                                <rect key="frame" x="116" y="612" width="143" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.1103141737623422" blue="0.31376119834908789" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Delete"/>
+                                <connections>
+                                    <action selector="deleteButton:" destination="MGY-bm-k0T" eventType="touchUpInside" id="Bkt-jb-TXM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="Ogf-tv-yh0" secondAttribute="trailing" id="025-fx-6qK"/>
+                            <constraint firstItem="gSk-2a-MSP" firstAttribute="top" secondItem="xVT-V4-V9q" secondAttribute="bottom" constant="25" id="14y-se-NpR"/>
                             <constraint firstItem="gSk-2a-MSP" firstAttribute="top" secondItem="Ogf-tv-yh0" secondAttribute="bottom" constant="20" id="Kc8-rk-jAb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="xVT-V4-V9q" secondAttribute="trailing" constant="100" id="Q0P-eC-5RI"/>
                             <constraint firstItem="Ogf-tv-yh0" firstAttribute="leading" secondItem="hem-rQ-aSe" secondAttribute="leadingMargin" id="TkW-zu-gnH"/>
+                            <constraint firstItem="xVT-V4-V9q" firstAttribute="leading" secondItem="hem-rQ-aSe" secondAttribute="leadingMargin" constant="100" id="hld-Yf-0tT"/>
                             <constraint firstItem="Ogf-tv-yh0" firstAttribute="top" secondItem="F8j-Cq-jhl" secondAttribute="bottom" constant="20" id="u7m-Ct-4Y7"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="deleteButton" destination="xVT-V4-V9q" id="hx0-3a-AF1"/>
                         <outlet property="imageView" destination="Ogf-tv-yh0" id="H8v-3Z-A6Q"/>
                     </connections>
                 </viewController>

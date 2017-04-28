@@ -42,11 +42,14 @@ class ImagesViewController: UIViewController, MKMapViewDelegate {
     //lifecycle
     override func viewDidLoad(){
         super.viewDidLoad()
-        print("image")
         mapView.delegate = self
-        centerAndZoomMap()
+        MapFunctions.sharedInstance.centerAndZoomMap(mapView: mapView, locationPin: locationPin)
         setFlowLayout()
         executeSearch()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         if ((fetchedResultsController.fetchedObjects?.count)! < maxCount){
             getPics()
         }
@@ -55,10 +58,9 @@ class ImagesViewController: UIViewController, MKMapViewDelegate {
     func getPics(){
         addAlbumButton.isEnabled = false
         let numOfPicsNeeded = (maxCount  - (fetchedResultsController.fetchedObjects?.count)!)
-        Client.sharedInstance.getImageFromFlickr(locationPin: locationPin!, location: location!, numPics: numOfPicsNeeded){(image, error) in
-            guard error == nil else{
+        Client.sharedInstance.getImageFromFlickr(locationPin: locationPin!, location: location!, numPics: numOfPicsNeeded){(error) in
+            if error != nil {
                 print(error!)
-                return
             }
             let mainQ = DispatchQueue.main
             mainQ.async { () -> Void in
@@ -73,19 +75,6 @@ class ImagesViewController: UIViewController, MKMapViewDelegate {
         flowLayout.minimumInteritemSpacing = space
         flowLayout.minimumLineSpacing = space
         flowLayout.itemSize = CGSize(width: dimension, height: dimension)
-    }
-    
-    //functions
-    func centerAndZoomMap(){
-        let mapCenter = locationPin
-        let longitudeDelta = CLLocationDegrees(10.0)
-        let latitudeDelta = CLLocationDegrees(10.0)
-        let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
-        let savedRegion = MKCoordinateRegion(center: mapCenter!, span: span)
-        self.mapView.setRegion(savedRegion, animated: true)
-        let annotation = MKPointAnnotation.init()
-        annotation.coordinate = mapCenter!
-        self.mapView.addAnnotation(annotation)
     }
     
     @IBAction func getNewAlbum(_ sender: Any) {
@@ -118,7 +107,7 @@ extension ImagesViewController {
         }
 }
 
-extension ImagesViewController {
+/*extension ImagesViewController {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         let reuseId = "pin"
@@ -135,7 +124,7 @@ extension ImagesViewController {
         return pinView
     }
     
-}
+}*/
 
 //collection view delegate
 extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -168,6 +157,7 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
             collectionView.backgroundColor = UIColor.clear
         }else {
             let controller = self.storyboard?.instantiateViewController(withIdentifier: "ImageViewController") as! ImageViewController
+            controller.index = indexPath[1]
             controller.imageData = fetchedResultsController.object(at: indexPath)
             self.navigationController?.pushViewController( controller, animated: true)
         }

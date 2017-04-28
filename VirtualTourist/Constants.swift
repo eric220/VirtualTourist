@@ -23,8 +23,8 @@ struct Constants {
     }
     
     struct FlickrParameterKeys {
-        static let Method = "method"
-        static let APIKey = "api_key"
+        static let Method = "method=flickr.photos.search"
+        static let APIKey = "api_key=a8b2fe2e7a7804d2bd34d88980ce92d7"
         static let Extras = "extras"
         static let Format = "format"
         static let NoJSONCallback = "nojsoncallback"
@@ -34,7 +34,6 @@ struct Constants {
         
         static let lat = "lat"
         static let lon = "lon"
-        //static let GalleryID = "gallery_id"
     }
     
     // MARK: Flickr Parameter Values
@@ -47,9 +46,6 @@ struct Constants {
         static let PerPageValue = 100
         static let RadiusValue = 20
         static let RadiusUnitsValue = "mi"
-        //static let GalleryPhotosMethod = "flickr.galleries.getPhotos"
-        //static let GalleryID = "5704-72157622566655097"
-        //static let APIKey = "c9796bd6195cd1fba57a7d08bfd8d713"
     }
     
     struct FlickrResponseKeys {

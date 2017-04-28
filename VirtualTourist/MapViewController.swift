@@ -72,7 +72,7 @@ class MapViewController: UIViewController {
 
 extension MapViewController: MKMapViewDelegate {
     
-        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let reuseId = "pin"
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         if pinView == nil {
@@ -106,6 +106,7 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         let mapCenter = CLLocationCoordinate2D.init(latitude: (view.annotation?.coordinate.latitude)!, longitude: (view.annotation?.coordinate.longitude)! )
+        //MapFunctions.sharedInstance.centerAndZoomMap(mapView: mapView, locationPin: mapCenter)
         mapView.setCenter(mapCenter, animated: true)
         
     }

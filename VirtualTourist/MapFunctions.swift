@@ -44,4 +44,16 @@ class MapFunctions: NSObject, MKMapViewDelegate {
         }
     }
     
+    func centerAndZoomMap(mapView: MKMapView, locationPin: CLLocationCoordinate2D?){
+        let mapCenter = locationPin
+        let longitudeDelta = CLLocationDegrees(3.0)
+        let latitudeDelta = CLLocationDegrees(3.0)
+        let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+        let savedRegion = MKCoordinateRegion(center: mapCenter!, span: span)
+        mapView.setRegion(savedRegion, animated: true)
+        let annotation = MKPointAnnotation.init()
+        annotation.coordinate = mapCenter!
+        mapView.addAnnotation(annotation)
+    }
+    
 }
