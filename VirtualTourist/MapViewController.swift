@@ -11,10 +11,12 @@ import MapKit
 import CoreData
 
 class MapViewController: UIViewController {
-    //properties
-    @IBOutlet weak var mapView: MKMapView!
     
-    //lifecycle
+    //MARK: Properties
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
+    
+    //MARK: Lifecycle
     override func viewDidLoad(){
         super.viewDidLoad()
         mapView.delegate = self
@@ -23,19 +25,49 @@ class MapViewController: UIViewController {
         mapView.addGestureRecognizer(longPress)
         subscribeToBackgroundNotification()
         if UserDefaults.standard.bool(forKey: "HasZoomLevelAndCenter"){
-            MapFunctions.sharedInstance.setRegion(mapView: mapView)
+            setRegion(mapView: mapView)
         }
-        Client.sharedInstance.pinsFromCD(mapView)
+        Client.sharedInstance.pinsFromCD(mapView){(error) in
+            guard error == nil else{
+                let alert = launchAlert(message: error!)
+                self.present(alert, animated:  true)
+                return
+            }
+        }
+    }
+    
+    //MARK: Buttons
+    @IBAction func dumpData(_ sender: Any) {
+        let alert = launchAlert(message: "Are You Sure You Want To Dump All Pins?")
+        alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: { action in
+            let delegate = UIApplication.shared.delegate as! AppDelegate
+            do {
+                try delegate.stack?.dropAllData()
+            } catch {
+                print(error)
+            }
+            let allAnnotations = self.mapView.annotations
+            self.mapView.removeAnnotations(allAnnotations)
+        }))
+        self.present(alert, animated:  true)
     }
 
-    //views
-    
+    //MARK: Views
     func addAnnotation(gestureRecognizer: UIGestureRecognizer) {
         if gestureRecognizer.state == UIGestureRecognizerState.began {
-            Client.sharedInstance.addAnnotation(mapView: mapView, gestureRecognizer: gestureRecognizer)
+            activityView.startAnimating()
+            Client.sharedInstance.addAnnotation(mapView: mapView, gestureRecognizer: gestureRecognizer) {(error) in
+                guard error == nil else{
+                    let alert = launchAlert(message: error!)
+                    self.present(alert, animated:  true)
+                    return
+                }
+                self.activityView.stopAnimating()
+            }
         }
     }
     
+    //MARK: Functions
     func subscribeToBackgroundNotification(){
         NotificationCenter.default.addObserver(self, selector: #selector(storeUserData), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
@@ -55,17 +87,6 @@ class MapViewController: UIViewController {
         UserDefaults.standard.set(mapRegion, forKey: "MapRegion")
         UserDefaults.standard.set(true, forKey: "HasZoomLevelAndCenter")
         unsubscribeToBackgroundNotification()
-    }
-    
-    @IBAction func dumpData(_ sender: Any) {
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        do {
-            try delegate.stack?.dropAllData()
-        } catch {
-            print(error)
-        }
-        let allAnnotations = self.mapView.annotations
-        self.mapView.removeAnnotations(allAnnotations)
     }
     
 }
@@ -97,17 +118,27 @@ extension MapViewController: MKMapViewDelegate {
             let lat = Double((view.annotation?.coordinate.latitude)!)
             let lon = Double((view.annotation?.coordinate.longitude)!)
             request.predicate = NSPredicate(format: "(latitude BETWEEN {\((lat) - precision),\((lat) + precision) }) AND (longitude BETWEEN {\((lon) - precision),\((lon) + precision) })", argumentArray:[Double((view.annotation?.coordinate.latitude)!), Double((view.annotation?.coordinate.longitude)!)])
-            let result = try? Client.sharedInstance.stackManagedObjectContext().fetch(request)
-            controller.locationPin = view.annotation?.coordinate
-            controller.location = result?[0]
-            self.navigationController!.pushViewController(controller, animated: true)
+            if let result = try? Client.sharedInstance.stackManagedObjectContext().fetch(request){
+                controller.locationPin = view.annotation?.coordinate
+                controller.location = result[0]
+                self.navigationController!.pushViewController(controller, animated: true)
+            }
         }
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         let mapCenter = CLLocationCoordinate2D.init(latitude: (view.annotation?.coordinate.latitude)!, longitude: (view.annotation?.coordinate.longitude)! )
-        //MapFunctions.sharedInstance.centerAndZoomMap(mapView: mapView, locationPin: mapCenter)
         mapView.setCenter(mapCenter, animated: true)
+    }
+    
+    func setRegion(mapView: MKMapView){
+        let mapRegion = UserDefaults.standard.object(forKey: "MapRegion") as! [String:Double]
+        let mapCenter = CLLocationCoordinate2D.init(latitude: mapRegion["lat"]!, longitude: mapRegion["lon"]!)
+        let longitudeDelta = mapRegion["latDelta"]! as CLLocationDegrees
+        let latitudeDelta = mapRegion["lonDelta"]! as CLLocationDegrees
+        let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+        let savedRegion = MKCoordinateRegion(center: mapCenter, span: span)
+        mapView.setRegion(savedRegion, animated: false)
         
     }
 

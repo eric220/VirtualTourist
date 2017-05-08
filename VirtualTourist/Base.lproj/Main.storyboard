@@ -22,6 +22,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="f4u-US-sXe">
+                                <rect key="frame" x="177" y="91" width="20" height="20"/>
+                            </activityIndicatorView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="pSP-hQ-A2l" userLabel="PrimaryView">
                                 <rect key="frame" x="16" y="20" width="343" height="324"/>
                                 <subviews>
@@ -95,24 +98,19 @@
                         <constraints>
                             <constraint firstItem="lvA-eK-kb8" firstAttribute="top" secondItem="ohU-cS-eHk" secondAttribute="bottom" id="98p-5g-jvI"/>
                             <constraint firstItem="ohU-cS-eHk" firstAttribute="centerX" secondItem="aOR-GS-26o" secondAttribute="centerX" id="DG4-XK-u9L"/>
+                            <constraint firstItem="f4u-US-sXe" firstAttribute="centerY" secondItem="46e-5t-tfL" secondAttribute="centerY" id="IhG-g1-bvq"/>
                             <constraint firstItem="pSP-hQ-A2l" firstAttribute="bottom" secondItem="ohU-cS-eHk" secondAttribute="top" id="MBH-Bm-hnp"/>
+                            <constraint firstItem="f4u-US-sXe" firstAttribute="centerX" secondItem="46e-5t-tfL" secondAttribute="centerX" id="RLs-ng-LUF"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pSP-hQ-A2l" secondAttribute="trailing" id="ZRy-PY-dki"/>
                             <constraint firstItem="pSP-hQ-A2l" firstAttribute="top" secondItem="PSe-DY-R1s" secondAttribute="bottom" id="ceh-mr-swg"/>
                             <constraint firstItem="pSP-hQ-A2l" firstAttribute="leading" secondItem="aOR-GS-26o" secondAttribute="leadingMargin" id="ixA-JN-XwI"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Collection" selectedImage="listIcon" id="eKx-Ta-GPl"/>
-                    <navigationItem key="navigationItem" id="eym-QF-uRr">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="JVW-n4-42U">
-                            <connections>
-                                <action selector="editButton:" destination="eQa-Ya-7XC" id="VCO-lZ-OqV"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
+                        <outlet property="activityView" destination="f4u-US-sXe" id="tdD-Hx-HWy"/>
                         <outlet property="addAlbumButton" destination="th9-5M-hTj" id="HWA-nh-gs4"/>
                         <outlet property="collectionView" destination="Ajn-Jk-uUJ" id="l0p-nH-dK3"/>
-                        <outlet property="editButton" destination="JVW-n4-42U" id="l7P-nx-hdd"/>
                         <outlet property="flowLayout" destination="yQp-bz-DN5" id="abv-6c-2IU"/>
                         <outlet property="mapView" destination="46e-5t-tfL" id="Qz4-41-pQY"/>
                     </connections>
@@ -137,7 +135,7 @@
                                 <rect key="frame" x="16" y="40" width="343" height="607"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xVT-V4-V9q" userLabel="Delete ">
-                                <rect key="frame" x="116" y="612" width="143" height="30"/>
+                                <rect key="frame" x="66" y="612" width="243" height="30"/>
                                 <color key="backgroundColor" red="1" green="0.1103141737623422" blue="0.31376119834908789" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Delete"/>
                                 <connections>
@@ -150,9 +148,9 @@
                             <constraint firstAttribute="trailingMargin" secondItem="Ogf-tv-yh0" secondAttribute="trailing" id="025-fx-6qK"/>
                             <constraint firstItem="gSk-2a-MSP" firstAttribute="top" secondItem="xVT-V4-V9q" secondAttribute="bottom" constant="25" id="14y-se-NpR"/>
                             <constraint firstItem="gSk-2a-MSP" firstAttribute="top" secondItem="Ogf-tv-yh0" secondAttribute="bottom" constant="20" id="Kc8-rk-jAb"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="xVT-V4-V9q" secondAttribute="trailing" constant="100" id="Q0P-eC-5RI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="xVT-V4-V9q" secondAttribute="trailing" constant="50" id="Q0P-eC-5RI"/>
                             <constraint firstItem="Ogf-tv-yh0" firstAttribute="leading" secondItem="hem-rQ-aSe" secondAttribute="leadingMargin" id="TkW-zu-gnH"/>
-                            <constraint firstItem="xVT-V4-V9q" firstAttribute="leading" secondItem="hem-rQ-aSe" secondAttribute="leadingMargin" constant="100" id="hld-Yf-0tT"/>
+                            <constraint firstItem="xVT-V4-V9q" firstAttribute="leading" secondItem="hem-rQ-aSe" secondAttribute="leadingMargin" constant="50" id="hld-Yf-0tT"/>
                             <constraint firstItem="Ogf-tv-yh0" firstAttribute="top" secondItem="F8j-Cq-jhl" secondAttribute="bottom" constant="20" id="u7m-Ct-4Y7"/>
                         </constraints>
                     </view>
@@ -180,13 +178,18 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="kBL-cJ-6mL">
                                 <rect key="frame" x="16" y="64" width="343" height="603"/>
                             </mapView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="GsJ-b2-Dyh">
+                                <rect key="frame" x="177" y="323.5" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="kBL-cJ-6mL" firstAttribute="leading" secondItem="gNH-hJ-cz6" secondAttribute="leadingMargin" id="1e0-An-wjl"/>
                             <constraint firstItem="ktq-BX-4se" firstAttribute="top" secondItem="kBL-cJ-6mL" secondAttribute="bottom" id="Pg3-JR-cka"/>
+                            <constraint firstItem="GsJ-b2-Dyh" firstAttribute="centerX" secondItem="gNH-hJ-cz6" secondAttribute="centerX" id="TAp-fx-Zo5"/>
                             <constraint firstItem="kBL-cJ-6mL" firstAttribute="top" secondItem="Bqb-JZ-mZe" secondAttribute="bottom" id="awZ-yK-P2Y"/>
                             <constraint firstAttribute="trailingMargin" secondItem="kBL-cJ-6mL" secondAttribute="trailing" id="eSu-Nz-POo"/>
+                            <constraint firstItem="GsJ-b2-Dyh" firstAttribute="centerY" secondItem="gNH-hJ-cz6" secondAttribute="centerY" id="mgq-eI-ZnM"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" selectedImage="mapIcon" id="3Qc-ob-aQs"/>
@@ -198,6 +201,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityView" destination="GsJ-b2-Dyh" id="Cae-xn-bjL"/>
                         <outlet property="mapView" destination="kBL-cJ-6mL" id="Y3b-tC-8Ta"/>
                     </connections>
                 </viewController>
