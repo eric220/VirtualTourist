@@ -78,7 +78,6 @@ class ImagesViewController: UIViewController {
             let mainQ = DispatchQueue.main
             mainQ.async { () -> Void in
                 self.addAlbumButton.isEnabled = true
-                self.collectionView.reloadData()
                 self.activityView.stopAnimating()
             } 
         }
@@ -174,7 +173,6 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
 extension ImagesViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("did change")
         collectionView.reloadData()
     }
     

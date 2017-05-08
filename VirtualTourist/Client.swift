@@ -138,6 +138,8 @@ class Client: NSObject, MKMapViewDelegate {
                     return
                 }
                 _ = Locations(latitude: (result?[0].location?.coordinate.latitude)!, longitude: (result?[0].location?.coordinate.longitude)!, context: (self.stackManagedObjectContext()))
+                let delegate = UIApplication.shared.delegate as! AppDelegate
+                delegate.stack?.saveContext()
                 self.centerOnMap(mapView: mapView, location: (result?[0])!)
                 let annotation = MKPointAnnotation()
                 annotation.title = result?[0].locality
