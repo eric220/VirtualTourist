@@ -18,6 +18,9 @@ class ImagesViewController: UIViewController {
     var locationPin: CLLocationCoordinate2D?
     var location: Locations?
     let maxCount = 12
+    var page: Int?
+    let delegate = UIApplication.shared.delegate as! AppDelegate
+
     
     //create fetched result controlller
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Image> = {
@@ -49,7 +52,7 @@ class ImagesViewController: UIViewController {
         centerZoomMap(mapView: mapView, locationPin: locationPin)
         setFlowLayout()
         executeSearch()
-        if ((fetchedResultsController.fetchedObjects?.count)! < maxCount){
+        if ((fetchedResultsController.fetchedObjects?.count)! == 0){
             getPics()
         }
     }
@@ -57,8 +60,10 @@ class ImagesViewController: UIViewController {
     //MARK: Buttons
     @IBAction func getNewAlbum(_ sender: Any) {
         let count = (fetchedResultsController.fetchedObjects?.count)! - 1
-        for i in 0...count {
-            Client.sharedInstance.stackManagedObjectContext().delete(fetchedResultsController.object(at: [0,i]))
+        if count >= 1 {
+            for i in 0...count {
+                Client.sharedInstance.stackManagedObjectContext().delete(fetchedResultsController.object(at: [0,i]))
+            }
         }
         executeSearch()
         getPics()
@@ -79,6 +84,8 @@ class ImagesViewController: UIViewController {
             mainQ.async { () -> Void in
                 self.addAlbumButton.isEnabled = true
                 self.activityView.stopAnimating()
+                self.collectionView.reloadData()
+                self.delegate.stack?.saveContext()
             } 
         }
     }
@@ -147,24 +154,31 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
                                                       for: indexPath) as! imageCell
-        let count = (fetchedResultsController.fetchedObjects?.count)!
-        let objCount = indexPath[1]
-        if count > objCount {
+        //let count: Int = ((fetchedResultsController.fetchedObjects?.count)!) - 1
+        //let objCount: Int = indexPath[1]
+        if collectionCount(indexPath: indexPath) {//count >= objCount {
             let newImage = fetchedResultsController.object(at: indexPath)
             cell.collectionImage.image  = UIImage(data:newImage.image as! Data)
             return cell
+        } else {
+            cell.collectionImage.image = #imageLiteral(resourceName: "placeholder")
+            return cell
         }
-        
-        return cell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if (fetchedResultsController.fetchedObjects?.count)! < maxCount {
-            getPics()
-        } else {
+       // let count = ((fetchedResultsController.fetchedObjects?.count)!) - 1
+        //let objCount = indexPath[1]
+        if collectionCount(indexPath: indexPath) {//objCount <= count {
             Client.sharedInstance.stackManagedObjectContext().delete(self.fetchedResultsController.object(at: indexPath))
         }
+    }
+    
+    func collectionCount(indexPath: IndexPath) -> Bool{
+        let count = ((fetchedResultsController.fetchedObjects?.count)!) - 1
+        let objCount = indexPath[1]
+        
+        return count >= objCount
     }
 }
 
@@ -172,25 +186,20 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
 //controller delegate
 extension ImagesViewController: NSFetchedResultsControllerDelegate {
     
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        collectionView.reloadData()
-    }
-    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            print("insert")
+            break
         case .delete:
-            self.getPics()
+            delegate.stack?.saveContext()
+            collectionView.reloadData()
         case .update:
-            collectionView?.reloadItems(at: [indexPath!])
+            break
         default:
             //moving items is not needed
             break
         }
     }
-    
-
 }
 
 

@@ -24,6 +24,7 @@ struct Constants {
         static let Format = "format"
         static let NoJSONCallback = "nojsoncallback"
         static let PerPage = "per_page"
+        static let Page = "page"
         static let Radius = "radius"
         static let RadiusUnits = "radius_units=mi"
     }
@@ -36,6 +37,7 @@ struct Constants {
         static let Format = "json"
         static let NoJSONCallback = 1
         static let PerPage = 100
+        static let Page: Int? = 1
         static let Radius = 20
         static let RadiusUnits = "mi"
     }

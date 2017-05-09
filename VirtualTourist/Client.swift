@@ -65,13 +65,16 @@ class Client: NSObject, MKMapViewDelegate {
                     return
                 }
                 if let photosDictionary = parsedResult[Constants.FlickrResponseKeys.Photos] as? [String: AnyObject],let photoArray = photosDictionary[Constants.FlickrResponseKeys.Photo] as? [[String: AnyObject]]{
+                    if let pages = photosDictionary["pages"]{
+                    print("number of pages:\(pages)")
+                    }
                     repeat {
                             //check for number of images
-                        let randomImageNumber = Int(arc4random_uniform(UInt32(photoArray.count)))
-                        let photo = photoArray[randomImageNumber]
-                        if let imageUrlString = photo[Constants.FlickrResponseKeys.MediumURL] as? String {
-                            let imageURL = NSURL(string: imageUrlString)
-                            if let imageData = NSData(contentsOf: imageURL! as URL){
+                        let randomPhotoIndex = Int(arc4random_uniform(UInt32(photoArray.count)))
+                        let photoDictionary = photoArray[randomPhotoIndex] as [String:AnyObject]
+                        if let imageUrlString = photoDictionary[Constants.FlickrResponseKeys.MediumURL] as? String {
+                            let imageUrl = NSURL(string: imageUrlString)
+                            if let imageData = NSData(contentsOf: imageUrl! as URL){
                                 let mainQ = DispatchQueue.main
                                 mainQ.async { () -> Void in
                                     let photo = Image(image: imageData, context: self.stackManagedObjectContext())
