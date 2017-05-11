@@ -30,8 +30,8 @@ class Client: NSObject, MKMapViewDelegate {
     }
     
     //get images
-    func getImageFromFlickr(location: Locations, numPics: Int?, handler: @escaping (_ error: String? )->Void ) {
-        let parameters = [Constants.FlickrParameterKeys.APIKey: Constants.FlickrParameterValues.APIKey,
+    func getImageFromFlickr(location: Locations, numPics: Int?, numPage: Int?, handler: @escaping (_ error: String?, _ numPages: Int? )->Void ) {
+        var parameters = [Constants.FlickrParameterKeys.APIKey: Constants.FlickrParameterValues.APIKey,
                           Constants.FlickrParameterKeys.Method: Constants.FlickrParameterValues.Method,
                           "lat":  (location.latitude),
                           "lon":  (location.longitude),
@@ -41,12 +41,18 @@ class Client: NSObject, MKMapViewDelegate {
                           Constants.FlickrParameterKeys.PerPage: Constants.FlickrParameterValues.PerPage,
                           Constants.FlickrParameterKeys.Radius: Constants.FlickrParameterValues.Radius,
                           Constants.FlickrParameterKeys.RadiusUnits: Constants.FlickrParameterValues.RadiusUnits] as [String : Any]
+        
+        if let numPage = numPage {
+            let ranNum = Int(arc4random_uniform(UInt32(numPage)))
+            parameters[Constants.FlickrParameterKeys.Page] = ranNum
+        }
         let tUrl = urlFromComponents(parameters as [String : AnyObject])
+        print(tUrl)
         var numberOfPics = numPics!
         let request = NSURLRequest(url: tUrl)
         let task = URLSession.shared.dataTask(with: request as URLRequest!) {data, response, error in
             func displayError(_ error: String) {
-                handler(error)
+                handler(error, nil)
             }
             guard error == nil else {
                 displayError("Difficulty with internet, check connection")
@@ -61,13 +67,12 @@ class Client: NSObject, MKMapViewDelegate {
                 do {
                     parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
                 }catch {
-                    handler("Could not parse data")
+                    handler("Could not parse data", nil)
                     return
                 }
                 if let photosDictionary = parsedResult[Constants.FlickrResponseKeys.Photos] as? [String: AnyObject],let photoArray = photosDictionary[Constants.FlickrResponseKeys.Photo] as? [[String: AnyObject]]{
-                    if let pages = photosDictionary["pages"]{
-                    print("number of pages:\(pages)")
-                    }
+                    let pages = photosDictionary["pages"] as! Int
+            
                     repeat {
                             //check for number of images
                         let randomPhotoIndex = Int(arc4random_uniform(UInt32(photoArray.count)))
@@ -80,14 +85,14 @@ class Client: NSObject, MKMapViewDelegate {
                                     let photo = Image(image: imageData, context: self.stackManagedObjectContext())
                                     photo.location = location
                                 }
-                                handler(nil)
+                                handler(nil, pages)
                             }
                         }
                         numberOfPics -= 1
                     } while numberOfPics > 0
                 }
             } else {
-                handler("No Image Data Returned")
+                handler("No Image Data Returned", nil)
             }
         }
         task.resume()

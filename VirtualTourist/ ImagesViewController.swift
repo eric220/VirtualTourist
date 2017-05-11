@@ -74,12 +74,15 @@ class ImagesViewController: UIViewController {
         addAlbumButton.isEnabled = false
         activityView.startAnimating()
         self.view.bringSubview(toFront: activityView)
-        let numOfPicsNeeded = (maxCount  - (fetchedResultsController.fetchedObjects?.count)!)
-        Client.sharedInstance.getImageFromFlickr(location: location!, numPics: numOfPicsNeeded){(error) in
+        if let page = page {
+            print("page number: \(page)")
+        }
+        Client.sharedInstance.getImageFromFlickr(location: location!, numPics: maxCount, numPage: page){(error, pages) in
             if error != nil {
                 let alert = launchAlert(message: error!)
                 self.present(alert, animated: true)
             }
+            self.page = pages
             let mainQ = DispatchQueue.main
             mainQ.async { () -> Void in
                 self.addAlbumButton.isEnabled = true
