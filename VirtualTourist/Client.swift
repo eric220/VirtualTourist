@@ -31,6 +31,8 @@ class Client: NSObject, MKMapViewDelegate {
     
     //get images
     func getImageFromFlickr(location: Locations, numPics: Int?, numPage: Int?, handler: @escaping (_ error: String?, _ numPages: Int? )->Void ) {
+        
+        
         var parameters = [Constants.FlickrParameterKeys.APIKey: Constants.FlickrParameterValues.APIKey,
                           Constants.FlickrParameterKeys.Method: Constants.FlickrParameterValues.Method,
                           "lat":  (location.latitude),
@@ -38,8 +40,9 @@ class Client: NSObject, MKMapViewDelegate {
                           Constants.FlickrParameterKeys.Extras: Constants.FlickrParameterValues.Extras,
                           Constants.FlickrParameterKeys.NoJSONCallback: Constants.FlickrParameterValues.NoJSONCallback,
                           Constants.FlickrParameterKeys.Format: Constants.FlickrParameterValues.Format,
-                          Constants.FlickrParameterKeys.PerPage: Constants.FlickrParameterValues.PerPage,
+                          Constants.FlickrParameterKeys.PerPage: numPics!,
                           Constants.FlickrParameterKeys.Radius: Constants.FlickrParameterValues.Radius,
+                          //Constants.FlickrParameterKeys.Page: 200,
                           Constants.FlickrParameterKeys.RadiusUnits: Constants.FlickrParameterValues.RadiusUnits] as [String : Any]
         
         if let numPage = numPage {
@@ -48,7 +51,6 @@ class Client: NSObject, MKMapViewDelegate {
         }
         let tUrl = urlFromComponents(parameters as [String : AnyObject])
         print(tUrl)
-        var numberOfPics = numPics!
         let request = NSURLRequest(url: tUrl)
         let task = URLSession.shared.dataTask(with: request as URLRequest!) {data, response, error in
             func displayError(_ error: String) {
@@ -72,8 +74,23 @@ class Client: NSObject, MKMapViewDelegate {
                 }
                 if let photosDictionary = parsedResult[Constants.FlickrResponseKeys.Photos] as? [String: AnyObject],let photoArray = photosDictionary[Constants.FlickrResponseKeys.Photo] as? [[String: AnyObject]]{
                     let pages = photosDictionary["pages"] as! Int
+                    print(pages)
+                    for object in photoArray {
+                        if let imageUrlString = object[Constants.FlickrResponseKeys.MediumURL] {
+                            print("image string: \(imageUrlString)")
+                            let imageUrl = NSURL(string: imageUrlString as! String)
+                            if let imageData = NSData(contentsOf: imageUrl! as URL){
+                                let mainQ = DispatchQueue.main
+                                mainQ.async { () -> Void in
+                                    let photo = Image(image: imageData, context: self.stackManagedObjectContext())
+                                    photo.location = location
+                                }
+                                handler(nil, pages)
+                            }
+                        }
+                    }
             
-                    repeat {
+                    /*repeat {
                             //check for number of images
                         let randomPhotoIndex = Int(arc4random_uniform(UInt32(photoArray.count)))
                         let photoDictionary = photoArray[randomPhotoIndex] as [String:AnyObject]
@@ -89,7 +106,7 @@ class Client: NSObject, MKMapViewDelegate {
                             }
                         }
                         numberOfPics -= 1
-                    } while numberOfPics > 0
+                    } while numberOfPics > 0*/
                 }
             } else {
                 handler("No Image Data Returned", nil)
