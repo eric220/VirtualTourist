@@ -45,13 +45,8 @@ class Client: NSObject, MKMapViewDelegate {
                           Constants.FlickrParameterKeys.RadiusUnits: Constants.FlickrParameterValues.RadiusUnits] as [String : Any]
         
         if let numPage = numPage {
-            var pageNum = Int()
             let maxPages = 4000/numPics
-            if numPage > maxPages{
-                pageNum = maxPages
-            } else {
-                pageNum = numPage
-            }
+            var pageNum = min(numPage, maxPages)
             let ranNum = Int(arc4random_uniform(UInt32(pageNum)))
             parameters[Constants.FlickrParameterKeys.Page] = ranNum
         }

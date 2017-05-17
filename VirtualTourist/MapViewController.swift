@@ -61,33 +61,34 @@ class MapViewController: UIViewController {
         let touchCoordinate = mapView.convert(point, toCoordinateFrom: mapView)
         let annotation = MKPointAnnotation()
         annotation.coordinate = CLLocationCoordinate2D(latitude: (touchCoordinate.latitude), longitude: (touchCoordinate.longitude))
-        if gestureRecognizer.state == UIGestureRecognizerState.began {
-            print("began")
-            annotes.append(annotation)
-            mapView.addAnnotation(annotation)
-        }
-        
-        if gestureRecognizer.state == UIGestureRecognizerState.changed {
-            getRemoveLastAnnotations()
-            mapView.addAnnotation(annotation)
-            annotes.append(annotation)
-        }
-        
-        if gestureRecognizer.state == UIGestureRecognizerState.ended {
-            activityView.startAnimating()
-            getRemoveLastAnnotations()
-            Client.sharedInstance.addAnnotation(mapView: mapView, gestureRecognizer: gestureRecognizer){(error) in
-                guard error == nil else{
-                    let alert = Client.sharedInstance.launchAlert(message: error!)
-                    self.present(alert, animated: true)
-                    return
+        switch gestureRecognizer.state {
+            case .began:
+                annotes.append(annotation)
+                mapView.addAnnotation(annotation)
+            
+            case .changed:
+                getRemoveLastAnnotations()
+                mapView.addAnnotation(annotation)
+                annotes.append(annotation)
+            
+            case .ended:
+                activityView.startAnimating()
+                getRemoveLastAnnotations()
+                Client.sharedInstance.addAnnotation(mapView: mapView, gestureRecognizer: gestureRecognizer){(error) in
+                    guard error == nil else{
+                        let alert = Client.sharedInstance.launchAlert(message: error!)
+                        self.present(alert, animated: true)
+                        return
+                    }
+                    let mainQ = DispatchQueue.main
+                    mainQ.async { () -> Void in
+                        self.activityView.stopAnimating()
+                    }
                 }
-                let mainQ = DispatchQueue.main
-                mainQ.async { () -> Void in
-                    self.activityView.stopAnimating()
-                }
-            }
-            annotes.removeAll()
+                annotes.removeAll()
+            
+            default:
+                print("default")
         }
     }
     
