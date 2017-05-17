@@ -136,28 +136,29 @@ class Client: NSObject, MKMapViewDelegate {
     }
     
     //add annotation to map
+    
     func addAnnotation(mapView: MKMapView, gestureRecognizer: UIGestureRecognizer, handler: @escaping (_ error: String? )->Void ) {
-            let point = gestureRecognizer.location(in: mapView)
-            let touchCoordinate = mapView.convert(point, toCoordinateFrom: mapView)
-            let touchLocation = MKPointAnnotation()
-            touchLocation.coordinate = touchCoordinate
-            let location = CLLocation(latitude: touchLocation.coordinate.latitude, longitude: touchLocation.coordinate.longitude)
-            getLocation(location: location){(result, error) in
-                guard error == nil else{
-                    handler(error)
-                    return
-                }
-                _ = Locations(latitude: (result?[0].location?.coordinate.latitude)!, longitude: (result?[0].location?.coordinate.longitude)!, context: (self.stackManagedObjectContext()))
-                let delegate = UIApplication.shared.delegate as! AppDelegate
-                delegate.stack?.saveContext()
-                self.centerOnMap(mapView: mapView, location: (result?[0])!)
-                let annotation = MKPointAnnotation()
-                annotation.title = result?[0].locality
-                annotation.subtitle = result?[0].country
-                annotation.coordinate = CLLocationCoordinate2D(latitude: (result?[0].location?.coordinate.latitude)!, longitude: (result?[0].location?.coordinate.longitude)!)
-                mapView.addAnnotation(annotation)
-                handler(nil)
+        let point = gestureRecognizer.location(in: mapView)
+        let touchCoordinate = mapView.convert(point, toCoordinateFrom: mapView)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2D(latitude: (touchCoordinate.latitude), longitude: (touchCoordinate.longitude))
+        let location = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
+        getLocation(location: location){(result, error) in
+            guard error == nil else{
+                handler(error)
+                return
             }
+            _ = Locations(latitude: (result?[0].location?.coordinate.latitude)!, longitude: (result?[0].location?.coordinate.longitude)!, context: (self.stackManagedObjectContext()))
+            let delegate = UIApplication.shared.delegate as! AppDelegate
+            delegate.stack?.saveContext()
+            self.centerOnMap(mapView: mapView, location: (result?[0])!)
+            //let annotation = MKPointAnnotation()
+            annotation.title = result?[0].locality
+            annotation.subtitle = result?[0].country
+            annotation.coordinate = CLLocationCoordinate2D(latitude: (result?[0].location?.coordinate.latitude)!, longitude: (result?[0].location?.coordinate.longitude)!)
+            mapView.addAnnotation(annotation)
+            handler(nil)
+        }
     }
     
     func getLocation(location: CLLocation, handler:@escaping (_ result: [CLPlacemark]?, _ error: String?)-> Void){

@@ -13,6 +13,9 @@ import CoreData
 class MapViewController: UIViewController {
     
     //MARK: Properties
+    
+    var annotes = [MKPointAnnotation()]
+    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
@@ -54,28 +57,46 @@ class MapViewController: UIViewController {
 
     //MARK: Views
     func addAnnotation(gestureRecognizer: UIGestureRecognizer) {
+        let point = gestureRecognizer.location(in: mapView)
+        let touchCoordinate = mapView.convert(point, toCoordinateFrom: mapView)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2D(latitude: (touchCoordinate.latitude), longitude: (touchCoordinate.longitude))
         if gestureRecognizer.state == UIGestureRecognizerState.began {
-            activityView.startAnimating()
-            Client.sharedInstance.addAnnotation(mapView: mapView, gestureRecognizer: gestureRecognizer) {(error) in
-                guard error == nil else{
-                    let alert = Client.sharedInstance.launchAlert(message: error!)
-                    self.present(alert, animated:  true)
-                    return
-                }
-                self.activityView.stopAnimating()
-            }
+            print("began")
+            annotes.append(annotation)
+            mapView.addAnnotation(annotation)
         }
         
         if gestureRecognizer.state == UIGestureRecognizerState.changed {
-            print("changed")
+            getRemoveLastAnnotations()
+            mapView.addAnnotation(annotation)
+            annotes.append(annotation)
         }
         
         if gestureRecognizer.state == UIGestureRecognizerState.ended {
-            print("ended")
+            activityView.startAnimating()
+            getRemoveLastAnnotations()
+            Client.sharedInstance.addAnnotation(mapView: mapView, gestureRecognizer: gestureRecognizer){(error) in
+                guard error == nil else{
+                    let alert = Client.sharedInstance.launchAlert(message: error!)
+                    self.present(alert, animated: true)
+                    return
+                }
+                let mainQ = DispatchQueue.main
+                mainQ.async { () -> Void in
+                    self.activityView.stopAnimating()
+                }
+            }
+            annotes.removeAll()
         }
     }
     
     //MARK: Functions
+    func getRemoveLastAnnotations(){
+        mapView.removeAnnotations(annotes)
+    }
+    
+    
     func subscribeToBackgroundNotification(){
         NotificationCenter.default.addObserver(self, selector: #selector(storeUserData), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
