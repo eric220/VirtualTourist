@@ -45,11 +45,17 @@ class Client: NSObject, MKMapViewDelegate {
                           Constants.FlickrParameterKeys.RadiusUnits: Constants.FlickrParameterValues.RadiusUnits] as [String : Any]
         
         if let numPage = numPage {
-            let ranNum = Int(arc4random_uniform(UInt32(numPage)))
+            var pageNum = Int()
+            let maxPages = 4000/numPics
+            if numPage > maxPages{
+                pageNum = maxPages
+            } else {
+                pageNum = numPage
+            }
+            let ranNum = Int(arc4random_uniform(UInt32(pageNum)))
             parameters[Constants.FlickrParameterKeys.Page] = ranNum
         }
         let tUrl = urlFromComponents(parameters as [String : AnyObject])
-        print(tUrl)
         let request = NSURLRequest(url: tUrl)
         let task = URLSession.shared.dataTask(with: request as URLRequest!) {data, response, error in
             func displayError(_ error: String) {
@@ -75,7 +81,6 @@ class Client: NSObject, MKMapViewDelegate {
                     let pages = photosDictionary["pages"] as! Int
                     for object in photoArray {
                         if let imageUrlString = object[Constants.FlickrResponseKeys.MediumURL] {
-                            print("image string: \(imageUrlString)")
                             let imageUrl = NSURL(string: imageUrlString as! String)
                             if let imageData = NSData(contentsOf: imageUrl! as URL){
                                 let mainQ = DispatchQueue.main
@@ -171,5 +176,13 @@ class Client: NSObject, MKMapViewDelegate {
         mapView.setCenter(mapCenter, animated: true)
         mapView.isZoomEnabled = true
     }
+    
+    func launchAlert(message: String) -> UIAlertController{
+        let alert = UIAlertController(title: "Alert", message: "\(message)", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+        return alert
+    }
+    
     static var sharedInstance = Client()
+    
 }

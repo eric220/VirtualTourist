@@ -21,7 +21,7 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         mapView.delegate = self
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.addAnnotation))
-        longPress.minimumPressDuration = 1.0
+        longPress.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(longPress)
         subscribeToBackgroundNotification()
         if UserDefaults.standard.bool(forKey: "HasZoomLevelAndCenter"){
@@ -29,7 +29,7 @@ class MapViewController: UIViewController {
         }
         Client.sharedInstance.pinsFromCD(mapView){(error) in
             guard error == nil else{
-                let alert = launchAlert(message: error!)
+                let alert = Client.sharedInstance.launchAlert(message: error!)
                 self.present(alert, animated:  true)
                 return
             }
@@ -38,7 +38,7 @@ class MapViewController: UIViewController {
     
     //MARK: Buttons
     @IBAction func dumpData(_ sender: Any) {
-        let alert = launchAlert(message: "Are You Sure You Want To Dump All Pins?")
+        let alert = Client.sharedInstance.launchAlert(message: "Are You Sure You Want To Dump All Pins?")
         alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: { action in
             let delegate = UIApplication.shared.delegate as! AppDelegate
             do {
@@ -58,12 +58,20 @@ class MapViewController: UIViewController {
             activityView.startAnimating()
             Client.sharedInstance.addAnnotation(mapView: mapView, gestureRecognizer: gestureRecognizer) {(error) in
                 guard error == nil else{
-                    let alert = launchAlert(message: error!)
+                    let alert = Client.sharedInstance.launchAlert(message: error!)
                     self.present(alert, animated:  true)
                     return
                 }
                 self.activityView.stopAnimating()
             }
+        }
+        
+        if gestureRecognizer.state == UIGestureRecognizerState.changed {
+            print("changed")
+        }
+        
+        if gestureRecognizer.state == UIGestureRecognizerState.ended {
+            print("ended")
         }
     }
     

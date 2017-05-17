@@ -74,12 +74,9 @@ class ImagesViewController: UIViewController {
         addAlbumButton.isEnabled = false
         activityView.startAnimating()
         self.view.bringSubview(toFront: activityView)
-        if let page = page {
-            print("page number: \(page)")
-        }
         Client.sharedInstance.getImageFromFlickr(location: location!, numPics: maxCount, numPage: page){(error, pages) in
             if error != nil {
-                let alert = launchAlert(message: error!)
+                let alert = Client.sharedInstance.launchAlert(message: error!)
                 self.present(alert, animated: true)
             }
             self.page = pages
@@ -157,30 +154,25 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
                                                       for: indexPath) as! imageCell
-        //let count: Int = ((fetchedResultsController.fetchedObjects?.count)!) - 1
-        //let objCount: Int = indexPath[1]
-        if collectionCount(indexPath: indexPath) {//count >= objCount {
+        if collectionCount(indexPath: indexPath) {
             let newImage = fetchedResultsController.object(at: indexPath)
             cell.collectionImage.image  = UIImage(data:newImage.image as! Data)
             return cell
         } else {
-            cell.collectionImage.image = #imageLiteral(resourceName: "placeholder")
+            cell.collectionImage.image = nil
             return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       // let count = ((fetchedResultsController.fetchedObjects?.count)!) - 1
-        //let objCount = indexPath[1]
-        if collectionCount(indexPath: indexPath) {//objCount <= count {
+        if collectionCount(indexPath: indexPath) {
             Client.sharedInstance.stackManagedObjectContext().delete(self.fetchedResultsController.object(at: indexPath))
         }
     }
-    
+    //this ensures more items are in frc than object selected
     func collectionCount(indexPath: IndexPath) -> Bool{
         let count = ((fetchedResultsController.fetchedObjects?.count)!) - 1
         let objCount = indexPath[1]
-        
         return count >= objCount
     }
 }
