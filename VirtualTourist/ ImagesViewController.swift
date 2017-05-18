@@ -148,7 +148,12 @@ extension ImagesViewController: MKMapViewDelegate {
 extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return maxCount
+        let count = (fetchedResultsController.fetchedObjects?.count)!
+        if count == 0 {
+            return maxCount
+        } else {
+            return count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
