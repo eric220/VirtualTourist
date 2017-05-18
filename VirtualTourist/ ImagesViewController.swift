@@ -76,7 +76,7 @@ class ImagesViewController: UIViewController {
         self.view.bringSubview(toFront: activityView)
         Client.sharedInstance.getImageFromFlickr(location: location!, numPics: maxCount, numPage: page){(error, pages) in
             if error != nil {
-                let alert = Client.sharedInstance.launchAlert(message: error!)
+                let alert = Helper.sharedInstance.launchAlert(message: error!)
                 self.present(alert, animated: true)
             }
             self.page = pages

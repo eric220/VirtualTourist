@@ -22,6 +22,7 @@
 		FA0C4EDB1E8174B000E1A56C /* Image+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4ED71E8174B000E1A56C /* Image+CoreDataClass.swift */; };
 		FA0C4EDD1E8174B000E1A56C /* Locations+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4ED91E8174B000E1A56C /* Locations+CoreDataClass.swift */; };
 		FA0C4EE01E8174EB00E1A56C /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4EDF1E8174EB00E1A56C /* CoreDataStack.swift */; };
+		FA6F60E91ECDC4C9005A2AF4 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6F60E81ECDC4C9005A2AF4 /* Helper.swift */; };
 		FAD15ADA1EA8E5FD004389F5 /* Image+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD15AD81EA8E5FD004389F5 /* Image+CoreDataProperties.swift */; };
 		FAD15ADB1EA8E5FD004389F5 /* Locations+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD15AD91EA8E5FD004389F5 /* Locations+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
@@ -67,6 +68,7 @@
 		FA0C4EDF1E8174EB00E1A56C /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		FA3221FF1E82FCAD00C72429 /* Model2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model2.xcdatamodel; sourceTree = "<group>"; };
 		FA4342DE1E854B8F0027FF9F /* Model3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model3.xcdatamodel; sourceTree = "<group>"; };
+		FA6F60E81ECDC4C9005A2AF4 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		FAD15AD71EA8E5C1004389F5 /* Model4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model4.xcdatamodel; sourceTree = "<group>"; };
 		FAD15AD81EA8E5FD004389F5 /* Image+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataProperties.swift"; path = "../Image+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		FAD15AD91EA8E5FD004389F5 /* Locations+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Locations+CoreDataProperties.swift"; path = "../Locations+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				FA0C4ED71E8174B000E1A56C /* Image+CoreDataClass.swift */,
 				FA0C4D2F1E60EDE500E1A56C /* Client.swift */,
 				FA0C4D311E6B59D500E1A56C /* Constants.swift */,
+				FA6F60E81ECDC4C9005A2AF4 /* Helper.swift */,
 				FA0C4ED41E816ABD00E1A56C /* Model.xcdatamodeld */,
 			);
 			name = Models;
@@ -326,6 +329,7 @@
 				FA0C4EDB1E8174B000E1A56C /* Image+CoreDataClass.swift in Sources */,
 				FA0C4ED61E816ABD00E1A56C /* Model.xcdatamodeld in Sources */,
 				FA0C4D3D1E705A6800E1A56C /* imageCell.swift in Sources */,
+				FA6F60E91ECDC4C9005A2AF4 /* Helper.swift in Sources */,
 				FA0C4CFC1E5A22C300E1A56C /* AppDelegate.swift in Sources */,
 				FA0C4D301E60EDE500E1A56C /* Client.swift in Sources */,
 			);

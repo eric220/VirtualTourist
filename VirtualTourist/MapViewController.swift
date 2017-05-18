@@ -33,7 +33,7 @@ class MapViewController: UIViewController {
         }
         Client.sharedInstance.pinsFromCD(mapView){(error) in
             guard error == nil else{
-                let alert = Client.sharedInstance.launchAlert(message: error!)
+                let alert = Helper.sharedInstance.launchAlert(message: error!)
                 self.present(alert, animated:  true)
                 return
             }
@@ -59,7 +59,7 @@ class MapViewController: UIViewController {
             }
             mapView.removeAnnotation(annotation)
         } else {
-            let alert = Client.sharedInstance.launchAlert(message: "Are You Sure You Want To Dump All Pins?")
+            let alert = Helper.sharedInstance.launchAlert(message: "Are You Sure You Want To Dump All Pins?")
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: { action in
                 let delegate = UIApplication.shared.delegate as! AppDelegate
                 do {
@@ -95,7 +95,7 @@ class MapViewController: UIViewController {
                 getRemoveLastAnnotations()
                 Client.sharedInstance.addAnnotation(mapView: mapView, gestureRecognizer: gestureRecognizer){(error) in
                     guard error == nil else{
-                        let alert = Client.sharedInstance.launchAlert(message: error!)
+                        let alert = Helper.sharedInstance.launchAlert(message: error!)
                         self.present(alert, animated: true)
                         return
                     }

@@ -173,12 +173,6 @@ class Client: NSObject, MKMapViewDelegate {
         mapView.isZoomEnabled = true
     }
     
-    func launchAlert(message: String) -> UIAlertController{
-        let alert = UIAlertController(title: "Alert", message: "\(message)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
-        return alert
-    }
-    
     static var sharedInstance = Client()
     
 }
