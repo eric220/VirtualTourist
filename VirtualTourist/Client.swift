@@ -119,8 +119,8 @@ class Client: NSObject, MKMapViewDelegate {
                         return
                     }
                     let annotation = MKPointAnnotation()
-                    annotation.title = result?[0].locality
-                    annotation.subtitle = result?[0].country
+                    annotation.title = result?[0].locality ?? "Unknown"
+                    annotation.subtitle = result?[0].country ?? "Unknown"
                     annotation.coordinate = CLLocationCoordinate2D(latitude: (result?[0].location?.coordinate.latitude)!, longitude: (result?[0].location?.coordinate.longitude)!)
                     mapView.addAnnotation(annotation)
                 }
@@ -148,8 +148,8 @@ class Client: NSObject, MKMapViewDelegate {
             delegate.stack?.saveContext()
             self.centerOnMap(mapView: mapView, location: (result?[0])!)
             //let annotation = MKPointAnnotation()
-            annotation.title = result?[0].locality
-            annotation.subtitle = result?[0].country
+            annotation.title = result?[0].locality ?? "Unknown"
+            annotation.subtitle = result?[0].country ?? "Unknown"
             annotation.coordinate = CLLocationCoordinate2D(latitude: (result?[0].location?.coordinate.latitude)!, longitude: (result?[0].location?.coordinate.longitude)!)
             mapView.addAnnotation(annotation)
             handler(nil)
