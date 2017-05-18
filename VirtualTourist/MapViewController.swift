@@ -48,9 +48,7 @@ class MapViewController: UIViewController {
     //MARK: Buttons
     @IBAction func dumpData(_ sender: Any) {
         if thrashButton.tintColor == UIColor.red{
-            print("delete Pin")
             let annotation = mapView.selectedAnnotations[0]
-            print(annotation.coordinate)
             let request: NSFetchRequest<Locations> = Locations.fetchRequest()
             let precision = 0.0001
             let lat = Double((annotation.coordinate.latitude))

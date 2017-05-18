@@ -82,10 +82,10 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ohU-cS-eHk" userLabel="ButtonView">
-                                <rect key="frame" x="136" y="344" width="104" height="323"/>
+                                <rect key="frame" x="136" y="344" width="104" height="279"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="th9-5M-hTj">
-                                        <rect key="frame" x="0.0" y="0.0" width="104" height="323"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="104" height="279"/>
                                         <state key="normal" title="New Collection"/>
                                         <connections>
                                             <action selector="getNewAlbum:" destination="eQa-Ya-7XC" eventType="touchUpInside" id="Cr1-nV-cw0"/>
@@ -107,6 +107,8 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Collection" selectedImage="listIcon" id="eKx-Ta-GPl"/>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="activityView" destination="f4u-US-sXe" id="tdD-Hx-HWy"/>
                         <outlet property="addAlbumButton" destination="th9-5M-hTj" id="HWA-nh-gs4"/>

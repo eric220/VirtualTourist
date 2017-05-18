@@ -154,11 +154,12 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
                                                       for: indexPath) as! imageCell
-        
-        if fetchedResultsController.fetchedObjects?.count == 0{
+        if activityView.isAnimating {
             cell.collectionImage.image = #imageLiteral(resourceName: "placeholder")
             return cell
-        } else if collectionCount(indexPath: indexPath) {
+        }
+        
+        if collectionCount(indexPath: indexPath) {
             let newImage = fetchedResultsController.object(at: indexPath)
             cell.collectionImage.image  = UIImage(data:newImage.image as! Data)
             return cell
@@ -173,6 +174,7 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
             Client.sharedInstance.stackManagedObjectContext().delete(self.fetchedResultsController.object(at: indexPath))
         }
     }
+    
     //this ensures more items are in frc than object selected
     func collectionCount(indexPath: IndexPath) -> Bool{
         let count = ((fetchedResultsController.fetchedObjects?.count)!) - 1
