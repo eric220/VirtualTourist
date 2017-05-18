@@ -18,6 +18,7 @@ class MapViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
+    @IBOutlet weak var thrashButton: UIBarButtonItem!
     
     //MARK: Lifecycle
     override func viewDidLoad(){
@@ -39,20 +40,40 @@ class MapViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        thrashButton.tintColor = UIColor.blue
+    }
+    
     //MARK: Buttons
     @IBAction func dumpData(_ sender: Any) {
-        let alert = Client.sharedInstance.launchAlert(message: "Are You Sure You Want To Dump All Pins?")
-        alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: { action in
-            let delegate = UIApplication.shared.delegate as! AppDelegate
-            do {
-                try delegate.stack?.dropAllData()
-            } catch {
-                print(error)
+        if thrashButton.tintColor == UIColor.red{
+            print("delete Pin")
+            let annotation = mapView.selectedAnnotations[0]
+            print(annotation.coordinate)
+            let request: NSFetchRequest<Locations> = Locations.fetchRequest()
+            let precision = 0.0001
+            let lat = Double((annotation.coordinate.latitude))
+            let lon = Double((annotation.coordinate.longitude))
+            request.predicate = NSPredicate(format: "(latitude BETWEEN {\((lat) - precision),\((lat) + precision) }) AND (longitude BETWEEN {\((lon) - precision),\((lon) + precision) })", argumentArray:[Double((annotation.coordinate.latitude)), Double((annotation.coordinate.longitude))])
+            if let result = try? Client.sharedInstance.stackManagedObjectContext().fetch(request){
+                Client.sharedInstance.stackManagedObjectContext().delete(result[0])
             }
-            let allAnnotations = self.mapView.annotations
-            self.mapView.removeAnnotations(allAnnotations)
-        }))
-        self.present(alert, animated:  true)
+            mapView.removeAnnotation(annotation)
+        } else {
+            let alert = Client.sharedInstance.launchAlert(message: "Are You Sure You Want To Dump All Pins?")
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: { action in
+                let delegate = UIApplication.shared.delegate as! AppDelegate
+                do {
+                    try delegate.stack?.dropAllData()
+                } catch {
+                    print(error)
+                }
+                let allAnnotations = self.mapView.annotations
+                self.mapView.removeAnnotations(allAnnotations)
+            }))
+            self.present(alert, animated:  true)
+        }
     }
 
     //MARK: Views
@@ -158,7 +179,12 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         let mapCenter = CLLocationCoordinate2D.init(latitude: (view.annotation?.coordinate.latitude)!, longitude: (view.annotation?.coordinate.longitude)! )
+        thrashButton.tintColor = UIColor.red
         mapView.setCenter(mapCenter, animated: true)
+    }
+    
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        thrashButton.tintColor = UIColor.blue
     }
     
     func setRegion(mapView: MKMapView){

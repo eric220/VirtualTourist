@@ -159,6 +159,7 @@
                     <connections>
                         <outlet property="activityView" destination="GsJ-b2-Dyh" id="Cae-xn-bjL"/>
                         <outlet property="mapView" destination="kBL-cJ-6mL" id="Y3b-tC-8Ta"/>
+                        <outlet property="thrashButton" destination="X1F-Gw-CJA" id="VwP-mz-JAn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8wq-nh-OfA" userLabel="First Responder" sceneMemberID="firstResponder"/>

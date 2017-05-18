@@ -154,7 +154,11 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
                                                       for: indexPath) as! imageCell
-        if collectionCount(indexPath: indexPath) {
+        
+        if fetchedResultsController.fetchedObjects?.count == 0{
+            cell.collectionImage.image = #imageLiteral(resourceName: "placeholder")
+            return cell
+        } else if collectionCount(indexPath: indexPath) {
             let newImage = fetchedResultsController.object(at: indexPath)
             cell.collectionImage.image  = UIImage(data:newImage.image as! Data)
             return cell
