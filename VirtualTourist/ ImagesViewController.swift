@@ -161,7 +161,6 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 return cell
             } else {
                 let newImageURL = newImage.ulrString
-                print("urlString: \(newImageURL)")
                 Client.sharedInstance.getImage(imagePath: newImageURL!){(data, error)in
                     guard error == nil else{// do something else with error. ie use as placemark
                         print(error ?? "error")
