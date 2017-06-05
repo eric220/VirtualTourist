@@ -33,6 +33,9 @@
                                         <subviews>
                                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="749" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="46e-5t-tfL">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="162"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="eQa-Ya-7XC" id="byf-ca-nrI"/>
+                                                </connections>
                                             </mapView>
                                         </subviews>
                                     </stackView>
@@ -135,6 +138,9 @@
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="kBL-cJ-6mL">
                                 <rect key="frame" x="16" y="64" width="343" height="603"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ELC-2T-gd0" id="rTp-HB-GPp"/>
+                                </connections>
                             </mapView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="GsJ-b2-Dyh">
                                 <rect key="frame" x="177" y="323.5" width="20" height="20"/>

@@ -24,7 +24,6 @@ class MapViewController: UIViewController {
     //MARK: Lifecycle
     override func viewDidLoad(){
         super.viewDidLoad()
-        mapView.delegate = self
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.addAnnotation))
         longPress.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(longPress)

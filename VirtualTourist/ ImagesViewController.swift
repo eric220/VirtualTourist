@@ -47,8 +47,6 @@ class ImagesViewController: UIViewController {
     //MARK: Lifecycle
     override func viewDidLoad(){
         super.viewDidLoad()
-        mapView.delegate = self
-        collectionView.delegate = self
         centerZoomMap(mapView: mapView, locationPin: locationPin)
         setFlowLayout()
         executeSearch()
@@ -143,11 +141,7 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = (fetchedResultsController.fetchedObjects?.count)!
-        if count == 0 {
-            return maxCount
-        } else {
-            return count
-        }
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -171,6 +165,7 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
                         self.addAlbumButton.isEnabled = true
                         self.activityView.stopAnimating()
                         newImage.image = data as NSData?
+                        self.delegate.stack?.saveContext()
                         cell.collectionImage.image = UIImage(data: data!)
                     }
                 }
@@ -201,7 +196,7 @@ extension ImagesViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            collectionView.reloadData()
+            collectionView.insertItems(at: [newIndexPath!])
         case .delete:
             delegate.stack?.saveContext()
             collectionView.reloadData()
