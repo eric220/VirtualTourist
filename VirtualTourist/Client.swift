@@ -13,6 +13,8 @@ import CoreData
 
 class Client: NSObject, MKMapViewDelegate {
     
+    let delegate = UIApplication.shared.delegate as! AppDelegate
+    
     func urlFromComponents(_ parameters: [String: AnyObject]) -> URL {
         
         var components = URLComponents()
@@ -30,8 +32,7 @@ class Client: NSObject, MKMapViewDelegate {
     }
     
     //get images
-    func getImageFromFlickr(location: Locations, numPics: Int, numPage: Int?, handler: @escaping (_ error: String?, _ numPages: Int? )->Void ) {
-        
+    func getURLFromFlickr(location: Locations, numPics: Int, numPage: Int?, handler: @escaping (_ numPages: Int?, _ error: String? )->Void ) {
         
         var parameters = [Constants.FlickrParameterKeys.APIKey: Constants.FlickrParameterValues.APIKey,
                           Constants.FlickrParameterKeys.Method: Constants.FlickrParameterValues.Method,
@@ -54,7 +55,7 @@ class Client: NSObject, MKMapViewDelegate {
         let request = NSURLRequest(url: tUrl)
         let task = URLSession.shared.dataTask(with: request as URLRequest!) {data, response, error in
             func displayError(_ error: String) {
-                handler(error, nil)
+                handler(nil, error)
             }
             guard error == nil else {
                 displayError("Difficulty with internet, check connection")
@@ -69,29 +70,40 @@ class Client: NSObject, MKMapViewDelegate {
                 do {
                     parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
                 }catch {
-                    handler("Could not parse data", nil)
+                    displayError("Could not parse data")
                     return
                 }
                 if let photosDictionary = parsedResult[Constants.FlickrResponseKeys.Photos] as? [String: AnyObject],let photoArray = photosDictionary[Constants.FlickrResponseKeys.Photo] as? [[String: AnyObject]]{
                     let pages = photosDictionary["pages"] as! Int
                     for object in photoArray {
-                        if let imageUrlString = object[Constants.FlickrResponseKeys.MediumURL] {
-                            let imageUrl = NSURL(string: imageUrlString as! String)
-                            if let imageData = NSData(contentsOf: imageUrl! as URL){
-                                let mainQ = DispatchQueue.main
-                                mainQ.async { () -> Void in
-                                    let photo = Image(image: imageData, context: self.stackManagedObjectContext())
-                                    photo.location = location
-                                }
-                                handler(nil, pages)
-                            }
+                        if let imageUrlString = object[Constants.FlickrResponseKeys.MediumURL] as? String {
+                            let photo = Image(image: nil,urlString: imageUrlString, context: self.stackManagedObjectContext())
+                            photo.location = location
+                            self.delegate.stack?.saveContext()
                         }
                     }
+                    handler(pages, nil)
                 }
             } else {
-                handler("No Image Data Returned", nil)
+                handler(nil, "No Image Data Returned")
             }
         }
+        task.resume()
+    }
+    
+    func getImage( imagePath:String, completionHandler: @escaping (_ imageData: Data?, _ errorString: String?) -> Void){
+        let imgageURL = NSURL(string: imagePath)
+        let request: NSURLRequest = NSURLRequest(url: imgageURL! as URL)
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {data, response, error in
+            
+            if error != nil {
+                completionHandler(nil, "No Image")
+            } else {
+                
+                completionHandler(data, nil)
+            }
+        }
+        
         task.resume()
     }
     
@@ -144,8 +156,8 @@ class Client: NSObject, MKMapViewDelegate {
                 return
             }
             _ = Locations(latitude: (result?[0].location?.coordinate.latitude)!, longitude: (result?[0].location?.coordinate.longitude)!, context: (self.stackManagedObjectContext()))
-            let delegate = UIApplication.shared.delegate as! AppDelegate
-            delegate.stack?.saveContext()
+            //let delegate = UIApplication.shared.delegate as! AppDelegate
+            self.delegate.stack?.saveContext()
             self.centerOnMap(mapView: mapView, location: (result?[0])!)
             //let annotation = MKPointAnnotation()
             annotation.title = result?[0].locality ?? "Unknown"

@@ -15,6 +15,7 @@ class MapViewController: UIViewController {
     //MARK: Properties
     
     var annotes = [MKPointAnnotation()]
+    let delegate = UIApplication.shared.delegate as! AppDelegate
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
@@ -57,13 +58,14 @@ class MapViewController: UIViewController {
             if let result = try? Client.sharedInstance.stackManagedObjectContext().fetch(request){
                 Client.sharedInstance.stackManagedObjectContext().delete(result[0])
             }
+            delegate.stack?.saveContext() 
             mapView.removeAnnotation(annotation)
         } else {
             let alert = Helper.sharedInstance.launchAlert(message: "Are You Sure You Want To Dump All Pins?")
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: { action in
-                let delegate = UIApplication.shared.delegate as! AppDelegate
+                //let delegate = UIApplication.shared.delegate as! AppDelegate
                 do {
-                    try delegate.stack?.dropAllData()
+                    try self.delegate.stack?.dropAllData()
                 } catch {
                     print(error)
                 }

@@ -2,7 +2,7 @@
 //  Image+CoreDataProperties.swift
 //  VirtualTourist
 //
-//  Created by Macbook on 4/20/17.
+//  Created by Macbook on 5/19/17.
 //  Copyright © 2017 Macbook. All rights reserved.
 //
 
@@ -17,6 +17,7 @@ extension Image {
     }
 
     @NSManaged public var image: NSData?
+    @NSManaged public var ulrString: String?
     @NSManaged public var location: Locations?
 
 }

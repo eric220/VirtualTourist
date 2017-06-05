@@ -65,6 +65,7 @@ class ImagesViewController: UIViewController {
                 Client.sharedInstance.stackManagedObjectContext().delete(fetchedResultsController.object(at: [0,i]))
             }
         }
+        collectionView.reloadData()
         executeSearch()
         getPics()
     }
@@ -74,19 +75,12 @@ class ImagesViewController: UIViewController {
         addAlbumButton.isEnabled = false
         activityView.startAnimating()
         self.view.bringSubview(toFront: activityView)
-        Client.sharedInstance.getImageFromFlickr(location: location!, numPics: maxCount, numPage: page){(error, pages) in
+        Client.sharedInstance.getURLFromFlickr(location: location!, numPics: maxCount, numPage: page){(pages, error) in
             if error != nil {
                 let alert = Helper.sharedInstance.launchAlert(message: error!)
                 self.present(alert, animated: true)
             }
             self.page = pages
-            let mainQ = DispatchQueue.main
-            mainQ.async { () -> Void in
-                self.addAlbumButton.isEnabled = true
-                self.activityView.stopAnimating()
-                self.collectionView.reloadData()
-                self.delegate.stack?.saveContext()
-            } 
         }
     }
     
@@ -159,19 +153,32 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
                                                       for: indexPath) as! imageCell
-        if activityView.isAnimating {
-            cell.collectionImage.image = #imageLiteral(resourceName: "placeholder")
-            return cell
-        }
-        
+       
         if collectionCount(indexPath: indexPath) {
             let newImage = fetchedResultsController.object(at: indexPath)
-            cell.collectionImage.image  = UIImage(data:newImage.image as! Data)
-            return cell
-        } else {
-            cell.collectionImage.image = nil
-            return cell
+            if let imageFromCD = newImage.image {
+                cell.collectionImage.image = UIImage(data: imageFromCD as Data)
+                return cell
+            } else {
+                let newImageURL = newImage.ulrString
+                print("urlString: \(newImageURL)")
+                Client.sharedInstance.getImage(imagePath: newImageURL!){(data, error)in
+                    guard error == nil else{// do something else with error. ie use as placemark
+                        print(error ?? "error")
+                        return
+                    }
+                    let mainQ = DispatchQueue.main
+                    mainQ.async { () -> Void in
+                        self.addAlbumButton.isEnabled = true
+                        self.activityView.stopAnimating()
+                        newImage.image = data as NSData?
+                        cell.collectionImage.image = UIImage(data: data!)
+                    }
+                }
+                return cell
+            }
         }
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -195,7 +202,7 @@ extension ImagesViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            break
+            collectionView.reloadData()
         case .delete:
             delegate.stack?.saveContext()
             collectionView.reloadData()
