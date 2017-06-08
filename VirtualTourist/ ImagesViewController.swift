@@ -147,38 +147,33 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell",
                                                       for: indexPath) as! imageCell
-       
-        if collectionCount(indexPath: indexPath) {
-            let newImage = fetchedResultsController.object(at: indexPath)
-            if let imageFromCD = newImage.image {
-                cell.collectionImage.image = UIImage(data: imageFromCD as Data)
-                return cell
-            } else {
-                let newImageURL = newImage.ulrString
-                Client.sharedInstance.getImage(imagePath: newImageURL!){(data, error)in
-                    guard error == nil else{// do something else with error. ie use as placemark
-                        print(error ?? "error")
-                        return
-                    }
-                    let mainQ = DispatchQueue.main
-                    mainQ.async { () -> Void in
-                        self.addAlbumButton.isEnabled = true
-                        self.activityView.stopAnimating()
-                        newImage.image = data as NSData?
-                        self.delegate.stack?.saveContext()
-                        cell.collectionImage.image = UIImage(data: data!)
-                    }
+
+        let newImage = fetchedResultsController.object(at: indexPath)
+        if let imageFromCD = newImage.image {
+            cell.collectionImage.image = UIImage(data: imageFromCD as Data)
+            return cell
+        } else {
+            let newImageURL = newImage.ulrString
+            Client.sharedInstance.getImage(imagePath: newImageURL!){(data, error)in
+                guard error == nil else{// do something else with error. ie use as placemark
+                    print(error ?? "error")
+                    return
                 }
-                return cell
+                let mainQ = DispatchQueue.main
+                mainQ.async { () -> Void in
+                    self.addAlbumButton.isEnabled = true
+                    self.activityView.stopAnimating()
+                    newImage.image = data as NSData?
+                    self.delegate.stack?.saveContext()
+                    cell.collectionImage.image = UIImage(data: data!)
+                }
             }
+            return cell
         }
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionCount(indexPath: indexPath) {
             Client.sharedInstance.stackManagedObjectContext().delete(self.fetchedResultsController.object(at: indexPath))
-        }
     }
     
     //this ensures more items are in frc than object selected
